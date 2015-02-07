@@ -1,6 +1,6 @@
-#HTP-Homeworks
+#Android-Homeworks
 
-Repository for homeworks from Java HTP.
+Repository for homeworks from Android HTP.
 
 ## Project structure
 
