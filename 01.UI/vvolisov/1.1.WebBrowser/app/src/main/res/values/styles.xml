@@ -6,8 +6,6 @@
 
     <style name="Widget.WebBrowser.buttonStyle" parent="android:Widget.Button.Small">
         <item name="android:gravity">center</item>
-        <item name="android:maxWidth">10dp</item>
-        <item name="android:maxHeight">10dp</item>
     </style>
 
     <style name="Widget.WebBrowser.buttonStyle.buttonOKStyle">
