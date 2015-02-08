@@ -62,7 +62,7 @@ public class MainActivity extends Activity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mPage.saveState(outState);
-        outState.putString(SAVE_INSTANCE_ADDRESS_KEY, mAddress.toString());
+        outState.putString(SAVE_INSTANCE_ADDRESS_KEY, mAddress.getText().toString());
         outState.putBooleanArray(SAVE_INSTANCE_NAVIGATE_BTNS_STATE_KEY, new boolean[]{mBtnBack.isEnabled(), mBtnForward.isEnabled()});
     }
 
@@ -111,7 +111,7 @@ public class MainActivity extends Activity {
         WebSettings webViewSettings = mPage.getSettings();
         webViewSettings.setDefaultTextEncodingName(TEXT_ENCODING_NAME_DEF);
         webViewSettings.setJavaScriptEnabled(true);
-        webViewSettings.setBuiltInZoomControls(true);
+//        webViewSettings.setBuiltInZoomControls(true);
         webViewSettings.setUseWideViewPort(true);
         mPage.setInitialScale(1);
         mPage.setWebViewClient(new MyWebViewClient());
