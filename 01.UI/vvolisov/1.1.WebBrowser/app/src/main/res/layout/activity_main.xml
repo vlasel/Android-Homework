@@ -52,13 +52,11 @@
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/btn_go"
         android:layout_toRightOf="@id/navigate_buttons"
-        android:layout_weight="1"
         android:hint="@string/address_hint"
         android:inputType="textUri"
         android:textAppearance="@android:style/TextAppearance.Small"
         tools:text="address"
         />
-
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"

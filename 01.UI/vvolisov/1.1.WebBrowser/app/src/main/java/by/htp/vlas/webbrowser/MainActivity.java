@@ -10,6 +10,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -75,15 +76,8 @@ public class MainActivity extends Activity {
     }
 
     @OnClick(R.id.btn_go)
-    void loadUrl() {
-        String urlString = mAddress.getText().toString();
-        if (TextUtils.isEmpty(urlString)) return;
-
-        if (!URLUtil.isValidUrl(urlString)) {
-            urlString = URL_PREFIX_DEF + urlString;
-            mAddress.setText(urlString);
-        }
-        mPage.loadUrl(urlString);
+    void btnGoAction() {
+        loadUrl();
     }
 
     @OnClick(R.id.btn_back)
@@ -97,6 +91,17 @@ public class MainActivity extends Activity {
     }
 
     //############################## private methods ####################################
+
+    private void loadUrl(){
+        String urlString = mAddress.getText().toString();
+        if (TextUtils.isEmpty(urlString)) return;
+
+        if (!URLUtil.isValidUrl(urlString)) {
+            urlString = URL_PREFIX_DEF + urlString;
+            mAddress.setText(urlString);
+        }
+        mPage.loadUrl(urlString);
+    }
 
     private void webViewInit() {
         WebSettings webViewSettings = mPage.getSettings();
@@ -127,6 +132,9 @@ public class MainActivity extends Activity {
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
+
+            sHistoryStorage.addUrlInHistory(url);
+            Toast.makeText(MainActivity.this, (url + "added to history"), Toast.LENGTH_SHORT).show();
 
             if (mPage.canGoBack()) {
                 mBtnBack.setEnabled(true);

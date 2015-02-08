@@ -17,7 +17,6 @@
         android:layout_alignParentRight="true"
         android:text="@string/btn_go"
         />
-
     <EditText
         android:id="@+id/address"
         android:layout_width="match_parent"
@@ -28,7 +27,6 @@
         android:textAppearance="@android:style/TextAppearance.Small"
         tools:text="address"
         />
-
 
     <LinearLayout
         android:id="@+id/navigate_buttons"
