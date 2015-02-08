@@ -2,6 +2,7 @@ package by.htp.vlas.webbrowser;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -45,7 +46,8 @@ public class MainActivity extends Activity {
     private final String SAVE_INSTANCE_ADDRESS_KEY = "address";
     private final String SAVE_INSTANCE_NAVIGATE_BTNS_STATE_KEY = "navigateButtonsState";
 
-    private static HistoryStorage sHistoryStorage;
+    private HistoryStorage mHistoryStorage = new HistoryStorage();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,7 @@ public class MainActivity extends Activity {
         mBtnForward.setEnabled(false);
 
         webViewInit();
+
     }
 
     @Override
@@ -107,7 +110,7 @@ public class MainActivity extends Activity {
                 }
             }
             case KeyEvent.KEYCODE_MENU:{
-
+                historyActivityStart();
                 return true;
             }
             default:
@@ -128,6 +131,12 @@ public class MainActivity extends Activity {
             mAddress.setText(urlString);
         }
         mPage.loadUrl(urlString);
+    }
+
+    private void historyActivityStart(){
+        Intent intent = new Intent(this, HistoryActivity.class);
+        intent.putExtra(mHistoryStorage.getClass().getSimpleName(), mHistoryStorage);
+        this.startActivity(intent);
     }
 
     private void webViewInit() {
@@ -159,7 +168,7 @@ public class MainActivity extends Activity {
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
 
-            sHistoryStorage.addInHistory(url, mPage.getTitle());
+            mHistoryStorage.addInHistory(url, mPage.getTitle());
             Toast.makeText(MainActivity.this, (url + "added to history"), Toast.LENGTH_SHORT).show();
 
             if (mPage.canGoBack()) {
