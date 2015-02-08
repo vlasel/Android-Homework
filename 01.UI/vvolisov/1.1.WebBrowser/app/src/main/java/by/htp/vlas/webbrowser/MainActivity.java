@@ -1,9 +1,11 @@
 package by.htp.vlas.webbrowser;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.URLUtil;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -74,6 +76,9 @@ public class MainActivity extends Activity {
 
     @OnClick(R.id.btn_go)
     void loadUrl() {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mAddress.getWindowToken(), 0);
+
         String urlString = mAddress.getText().toString();
         if (TextUtils.isEmpty(urlString)) return;
 
