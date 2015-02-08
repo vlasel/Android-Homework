@@ -4,4 +4,5 @@
     <string name="btn_forward">&gt;</string>
     <string name="btn_go">GO</string>
     <string name="address_hint">enter web address</string>
+    <string name="activity_history_title">Pages History</string>
 </resources>

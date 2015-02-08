@@ -106,7 +106,7 @@ public class MainActivity extends Activity {
                     goBack();
                     return true;
                 } else {
-                    super.onKeyDown(keycode, e);
+                    return super.onKeyDown(keycode, e);
                 }
             }
             case KeyEvent.KEYCODE_MENU:{
@@ -114,10 +114,8 @@ public class MainActivity extends Activity {
                 return true;
             }
             default:
-                super.onKeyDown(keycode, e);
+                return super.onKeyDown(keycode, e);
         }
-
-        return super.onKeyDown(keycode, e);
     }
 
     //############################## private methods ####################################
