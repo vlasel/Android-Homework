@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.URLUtil;
 import android.webkit.WebSettings;
@@ -90,6 +91,28 @@ public class MainActivity extends Activity {
     @OnClick(R.id.btn_forward)
     void goForward() {
         mPage.goForward();
+    }
+
+    @Override
+    public boolean onKeyDown(int keycode, KeyEvent e) {
+        switch(keycode) {
+            case KeyEvent.KEYCODE_BACK:{
+                if(mPage.canGoBack()){
+                    goBack();
+                    return true;
+                } else {
+                    super.onKeyDown(keycode, e);
+                }
+            }
+            case KeyEvent.KEYCODE_MENU:{
+
+                return true;
+            }
+            default:
+                super.onKeyDown(keycode, e);
+        }
+
+        return super.onKeyDown(keycode, e);
     }
 
     //############################## private methods ####################################
