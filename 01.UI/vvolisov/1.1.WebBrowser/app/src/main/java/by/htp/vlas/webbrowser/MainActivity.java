@@ -159,7 +159,7 @@ public class MainActivity extends Activity {
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
 
-            sHistoryStorage.addUrlInHistory(url);
+            sHistoryStorage.addInHistory(url, mPage.getTitle());
             Toast.makeText(MainActivity.this, (url + "added to history"), Toast.LENGTH_SHORT).show();
 
             if (mPage.canGoBack()) {
