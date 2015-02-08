@@ -86,6 +86,8 @@ public class MainActivity extends Activity {
         imm.hideSoftInputFromWindow(mAddress.getWindowToken(), 0);
 
         loadUrl();
+
+        //TODO change button Go to GoRefresh - and when address  not changed manually, make this button "refresh"
     }
 
     @OnClick(R.id.btn_back)
@@ -113,9 +115,11 @@ public class MainActivity extends Activity {
                 historyActivityStart();
                 return true;
             }
-            default:
+            default: {
                 return super.onKeyDown(keycode, e);
+            }
         }
+
     }
 
     //############################## private methods ####################################
