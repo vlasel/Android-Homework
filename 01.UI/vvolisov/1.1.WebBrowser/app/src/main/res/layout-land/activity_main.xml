@@ -29,7 +29,6 @@
         tools:text="address"
         />
 
-
     <LinearLayout
         android:id="@+id/navigate_buttons"
         android:layout_width="wrap_content"
