@@ -75,18 +75,11 @@ public class MainActivity extends Activity {
     }
 
     @OnClick(R.id.btn_go)
-    void loadUrl() {
+    void btnGoAction() {
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(mAddress.getWindowToken(), 0);
 
-        String urlString = mAddress.getText().toString();
-        if (TextUtils.isEmpty(urlString)) return;
-
-        if (!URLUtil.isValidUrl(urlString)) {
-            urlString = URL_PREFIX_DEF + urlString;
-            mAddress.setText(urlString);
-        }
-        mPage.loadUrl(urlString);
+        loadUrl();
     }
 
     @OnClick(R.id.btn_back)
@@ -100,6 +93,17 @@ public class MainActivity extends Activity {
     }
 
     //############################## private methods ####################################
+
+    private void loadUrl(){
+        String urlString = mAddress.getText().toString();
+        if (TextUtils.isEmpty(urlString)) return;
+
+        if (!URLUtil.isValidUrl(urlString)) {
+            urlString = URL_PREFIX_DEF + urlString;
+            mAddress.setText(urlString);
+        }
+        mPage.loadUrl(urlString);
+    }
 
     private void webViewInit() {
         WebSettings webViewSettings = mPage.getSettings();
