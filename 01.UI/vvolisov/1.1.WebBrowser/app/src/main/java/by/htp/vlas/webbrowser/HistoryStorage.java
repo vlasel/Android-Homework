@@ -6,11 +6,11 @@ import java.util.List;
 /**
  * Created by VlasEL on 08.02.2015 11:42
  */
-public class HistoryStorage {
+public final class HistoryStorage {
 
     private static List<String> history = new ArrayList<>();
 
-    public void addUrlInHistory (String pUrl) {
+    public static void addUrlInHistory (String pUrl) {
         history.add(pUrl);
     }
 

@@ -41,6 +41,8 @@ public class MainActivity extends Activity {
     private final String SAVE_INSTANCE_ADDRESS_KEY = "address";
     private final String SAVE_INSTANCE_NAVIGATE_BTNS_STATE_KEY = "navigateButtonsState";
 
+    private static HistoryStorage sHistoryStorage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +106,7 @@ public class MainActivity extends Activity {
         webViewSettings.setUseWideViewPort(true);
         mPage.setInitialScale(1);
         mPage.setWebViewClient(new MyWebViewClient());
+
     }
 
     //################################ private class ############################################
@@ -124,6 +127,7 @@ public class MainActivity extends Activity {
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
+
             if (mPage.canGoBack()) {
                 mBtnBack.setEnabled(true);
             } else {
