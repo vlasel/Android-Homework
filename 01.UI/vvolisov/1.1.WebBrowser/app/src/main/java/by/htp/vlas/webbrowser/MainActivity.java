@@ -1,9 +1,11 @@
 package by.htp.vlas.webbrowser;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.URLUtil;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -44,7 +46,6 @@ public class MainActivity extends Activity {
 
     private static HistoryStorage sHistoryStorage;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +78,9 @@ public class MainActivity extends Activity {
 
     @OnClick(R.id.btn_go)
     void btnGoAction() {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mAddress.getWindowToken(), 0);
+
         loadUrl();
     }
 
@@ -111,7 +115,6 @@ public class MainActivity extends Activity {
         webViewSettings.setUseWideViewPort(true);
         mPage.setInitialScale(1);
         mPage.setWebViewClient(new MyWebViewClient());
-
     }
 
     //################################ private class ############################################
