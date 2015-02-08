@@ -145,7 +145,8 @@ public class MainActivity extends Activity {
         WebSettings webViewSettings = mPage.getSettings();
         webViewSettings.setDefaultTextEncodingName(TEXT_ENCODING_NAME_DEF);
         webViewSettings.setJavaScriptEnabled(true);
-//        webViewSettings.setBuiltInZoomControls(true);
+        webViewSettings.setBuiltInZoomControls(true);
+        webViewSettings.setDisplayZoomControls(false);
         webViewSettings.setUseWideViewPort(true);
         mPage.setInitialScale(1);
         mPage.setWebViewClient(new MyWebViewClient());
