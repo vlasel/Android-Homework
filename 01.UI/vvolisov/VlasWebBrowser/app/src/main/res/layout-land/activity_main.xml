@@ -11,13 +11,12 @@
 
     <Button
         android:id="@+id/btn_go"
-        style="@style/Widget.WebBrowser.buttonStyle.buttonOKStyle"
+        style="@style/Widget.WebBrowser.ButtonStyle.ButtonOKStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:text="@string/btn_go"
         />
-
     <EditText
         android:id="@+id/address"
         android:layout_width="match_parent"
@@ -28,7 +27,6 @@
         android:textAppearance="@android:style/TextAppearance.Small"
         tools:text="address"
         />
-
 
     <LinearLayout
         android:id="@+id/navigate_buttons"
@@ -44,7 +42,7 @@
 
         <Button
             android:id="@+id/btn_back"
-            style="@style/Widget.WebBrowser.buttonStyle.buttonNavigateStyle"
+            style="@style/Widget.WebBrowser.ButtonStyle.ButtonNavigateStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -53,7 +51,7 @@
 
         <Button
             android:id="@+id/btn_forward"
-            style="@style/Widget.WebBrowser.buttonStyle.buttonNavigateStyle"
+            style="@style/Widget.WebBrowser.ButtonStyle.ButtonNavigateStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -62,24 +60,15 @@
 
     </LinearLayout>
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/btn_go"
-                android:layout_toRightOf="@id/navigate_buttons"
-        >
+    <WebView
+        android:id="@+id/page_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_go"
+        android:layout_toRightOf="@id/navigate_buttons"
+        android:textSize="@dimen/page_font_size"
+        tools:text="page data"
 
-        <WebView
-            android:id="@+id/page_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/page_font_size"
-            tools:text="page data"
-
-            />
-
-    </ScrollView>
-
+        />
 
 </RelativeLayout>
