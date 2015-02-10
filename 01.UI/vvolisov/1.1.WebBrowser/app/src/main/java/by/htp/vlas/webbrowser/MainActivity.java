@@ -45,6 +45,7 @@ public class MainActivity extends Activity {
     private final String TEXT_ENCODING_NAME_DEF = "utf-8";
     private final String SAVE_INSTANCE_ADDRESS_KEY = "address";
     private final String SAVE_INSTANCE_NAVIGATE_BTNS_STATE_KEY = "navigateButtonsState";
+    private final int REQUEST_CODE_HISTORY_ACTIVITY = "navigateButtonsState".hashCode();
 
     private HistoryStorage mHistoryStorage = new HistoryStorage();
 
@@ -119,7 +120,15 @@ public class MainActivity extends Activity {
                 return super.onKeyDown(keycode, e);
             }
         }
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_HISTORY_ACTIVITY) {
+            String url = data.getData().toString();
+            Toast.makeText(this, url, Toast.LENGTH_SHORT).show();
+        }
     }
 
     //############################## private methods ####################################
@@ -138,7 +147,7 @@ public class MainActivity extends Activity {
     private void historyActivityStart(){
         Intent intent = new Intent(this, HistoryActivity.class);
         intent.putExtra(mHistoryStorage.getClass().getSimpleName(), mHistoryStorage);
-        this.startActivity(intent);
+        this.startActivityForResult(intent, REQUEST_CODE_HISTORY_ACTIVITY);
     }
 
     private void webViewInit() {
@@ -172,7 +181,7 @@ public class MainActivity extends Activity {
             super.onPageFinished(view, url);
 
             mHistoryStorage.addInHistory(url, mPage.getTitle());
-            Toast.makeText(MainActivity.this, (url + "added to history"), Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, (url + " " +getString(R.string.msg_history_event)), Toast.LENGTH_SHORT).show();
 
             if (mPage.canGoBack()) {
                 mBtnBack.setEnabled(true);
