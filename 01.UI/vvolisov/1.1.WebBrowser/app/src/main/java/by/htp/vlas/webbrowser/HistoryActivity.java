@@ -33,7 +33,7 @@ public class HistoryActivity extends Activity{
         HistoryStorage historyStorage = (HistoryStorage) getIntent().getSerializableExtra(HistoryStorage.class.getSimpleName());
 
         ListView listView = (ListView) findViewById(android.R.id.list);
-        listView.setAdapter(new HistoryAdapter(historyStorage.getHistory()));
+        listView.setAdapter(new HistoryAdapter(historyStorage.getHistoryClone()));
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

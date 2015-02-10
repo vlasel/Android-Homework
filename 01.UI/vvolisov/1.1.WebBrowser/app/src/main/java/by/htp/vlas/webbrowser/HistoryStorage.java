@@ -17,6 +17,10 @@ public final class HistoryStorage implements Serializable{
         history.add(historyItem);
     }
 
+    public List<HistoryItem> getHistoryClone() {
+        return new ArrayList<>(history);
+    }
+
     public List<HistoryItem> getHistory() {
         return history;
     }
