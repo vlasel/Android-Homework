@@ -10,9 +10,6 @@ import java.util.Map;
  */
 public final class HistoryStorage implements Serializable{
 
-    public final static String HISTORY_URL_KEY = "url";
-    public final static String HISTORY_TITLE_KEY = "title";
-
     private static List<HistoryItem> history = new ArrayList<>();
 
     public static void addInHistory(String pUrl, String pTitle) {
