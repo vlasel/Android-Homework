@@ -11,7 +11,7 @@
 
     <Button
         android:id="@+id/btn_go"
-        style="@style/Widget.WebBrowser.buttonStyle.buttonOKStyle"
+        style="@style/Widget.WebBrowser.ButtonStyle.ButtonOKStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -42,7 +42,7 @@
 
         <Button
             android:id="@+id/btn_back"
-            style="@style/Widget.WebBrowser.buttonStyle.buttonNavigateStyle"
+            style="@style/Widget.WebBrowser.ButtonStyle.ButtonNavigateStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -51,7 +51,7 @@
 
         <Button
             android:id="@+id/btn_forward"
-            style="@style/Widget.WebBrowser.buttonStyle.buttonNavigateStyle"
+            style="@style/Widget.WebBrowser.ButtonStyle.ButtonNavigateStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

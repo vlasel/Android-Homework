@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Created by VlasEL on 08.02.2015 11:42
  */
-public final class HistoryStorage implements Serializable{
+public final class HistoryStorage implements Serializable, Cloneable {
 
     private static List<HistoryItem> history = new ArrayList<>();
 
@@ -17,15 +17,16 @@ public final class HistoryStorage implements Serializable{
         history.add(historyItem);
     }
 
-    public List<HistoryItem> getHistoryClone() {
-        return new ArrayList<>(history);
-    }
-
     public List<HistoryItem> getHistory() {
         return history;
+    }
+
+    protected List<HistoryItem> getHistoryClone() {
+        return new ArrayList<>(history);
     }
 
     public void setHistory(List<HistoryItem> history) {
         HistoryStorage.history = history;
     }
+
 }

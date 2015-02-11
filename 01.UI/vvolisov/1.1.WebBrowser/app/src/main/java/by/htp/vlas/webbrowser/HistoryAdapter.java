@@ -37,7 +37,7 @@ public class HistoryAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View itemView;
-        if (convertView == null){
+        if (convertView == null) {
             itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.layout_history_item, parent, false);
         } else {

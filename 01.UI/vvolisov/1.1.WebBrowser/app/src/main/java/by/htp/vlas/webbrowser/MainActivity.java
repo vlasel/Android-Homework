@@ -45,8 +45,8 @@ public class MainActivity extends Activity {
 
     private final String URL_PREFIX_DEF = "http://";
     private final String TEXT_ENCODING_NAME_DEF = "utf-8";
-    private final String SAVE_INSTANCE_ADDRESS_KEY = "address";
-    private final String SAVE_INSTANCE_NAVIGATE_BTNS_STATE_KEY = "navigateButtonsState";
+    private final String STATE_ADDRESS_KEY = "address";
+    private final String STATE_NAVIGATE_BTNS_KEY = "navigateButtonsState";
     private final int HISTORY_ACTIVITY_URL_REQUEST = "URL_REQUEST".hashCode();
 
     private HistoryStorage mHistoryStorage = new HistoryStorage();
@@ -63,6 +63,7 @@ public class MainActivity extends Activity {
 
         webViewInit();
 
+        //TODO onRestoreInstanceState calling later than onCreate, so it's need to restore state in onCreate
     }
 
     //----------------------- Save-Restore -------------------------------------------
@@ -70,24 +71,25 @@ public class MainActivity extends Activity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mPage.saveState(outState);
-        outState.putString(SAVE_INSTANCE_ADDRESS_KEY, mAddress.getText().toString());
-        outState.putBooleanArray(SAVE_INSTANCE_NAVIGATE_BTNS_STATE_KEY, new boolean[]{mBtnBack.isEnabled(), mBtnForward.isEnabled()});
+        outState.putString(STATE_ADDRESS_KEY, mAddress.getText().toString());
+//        outState.putBooleanArray(STATE_NAVIGATE_BTNS_KEY, new boolean[]{mBtnBack.isEnabled(), mBtnForward.isEnabled()});
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mPage.restoreState(savedInstanceState);
-        mAddress.setText(savedInstanceState.getString(SAVE_INSTANCE_ADDRESS_KEY));
-        boolean[] navigateBtnsState = savedInstanceState.getBooleanArray(SAVE_INSTANCE_NAVIGATE_BTNS_STATE_KEY);
-        mBtnBack.setEnabled(navigateBtnsState[0]);
-        mBtnForward.setEnabled(navigateBtnsState[1]);
+        mAddress.setText(savedInstanceState.getString(STATE_ADDRESS_KEY));
+        //TODO if button has id - this state must besaved automatically
+//        boolean[] navigateBtnsState = savedInstanceState.getBooleanArray(STATE_NAVIGATE_BTNS_KEY);
+//        mBtnBack.setEnabled(navigateBtnsState[0]);
+//        mBtnForward.setEnabled(navigateBtnsState[1]);
     }
     //-----------------------/ Save-Restore -------------------------------------------
 
     @OnClick(R.id.btn_go)
     void btnGoAction() {
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(mAddress.getWindowToken(), 0);
 
         loadUrl(null);
@@ -107,16 +109,16 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onKeyDown(int keycode, KeyEvent e) {
-        switch(keycode) {
-            case KeyEvent.KEYCODE_BACK:{
-                if(mPage.canGoBack()){
+        switch (keycode) {
+            case KeyEvent.KEYCODE_BACK: {
+                if (mPage.canGoBack()) {
                     goBack();
                     return true;
                 } else {
                     return super.onKeyDown(keycode, e);
                 }
             }
-            case KeyEvent.KEYCODE_MENU:{
+            case KeyEvent.KEYCODE_MENU: {
                 historyActivityStart();
                 return true;
             }
@@ -127,24 +129,23 @@ public class MainActivity extends Activity {
     }
 
     // ---------------------------- History Activity transfer ----------------------------------
-    private void historyActivityStart(){
+    private void historyActivityStart() {
         Intent intent = new Intent(this, HistoryActivity.class);
-        intent.putExtra(mHistoryStorage.getClass().getSimpleName(), mHistoryStorage);
         this.startActivityForResult(intent, HISTORY_ACTIVITY_URL_REQUEST);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(data == null) return;
+        if (data == null) return;
 //        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == Activity.RESULT_OK && requestCode == HISTORY_ACTIVITY_URL_REQUEST) {
+        if (resultCode == Activity.RESULT_OK && requestCode == HISTORY_ACTIVITY_URL_REQUEST) {
             String url = data.getStringExtra(HISTORY_ACTIVITY_URL_REQUEST_KEY);
             loadUrl(url);
         }
     }
     // -----------------------------/ History Activity transfer ---------------------------------
 
-    private void loadUrl(String pUrl){
+    private void loadUrl(String pUrl) {
         String urlString = !TextUtils.isEmpty(pUrl) ? pUrl : mAddress.getText().toString();
         if (TextUtils.isEmpty(urlString)) return;
 
@@ -183,22 +184,18 @@ public class MainActivity extends Activity {
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
+            mBtnBack.setEnabled(view.canGoBack());
+            mBtnForward.setEnabled(view.canGoForward());
+        }
 
-            mHistoryStorage.addInHistory(url, mPage.getTitle());
-            Toast.makeText(MainActivity.this
-                    ,(url + " " +getString(R.string.msg_history_event))
-                    , Toast.LENGTH_SHORT).show();
-
-            if (mPage.canGoBack()) {
-                mBtnBack.setEnabled(true);
-            } else {
-                mBtnBack.setEnabled(false);
-            }
-
-            if (mPage.canGoForward()) {
-                mBtnForward.setEnabled(true);
-            } else {
-                mBtnForward.setEnabled(false);
+        @Override
+        public void doUpdateVisitedHistory(WebView view, String url, boolean isReload) {
+            super.doUpdateVisitedHistory(view, url, isReload);
+            if(!isReload) {
+                mHistoryStorage.addInHistory(url, view.getTitle());
+                Toast.makeText(MainActivity.this
+                        , (url + " " + getString(R.string.msg_history_event))
+                        , Toast.LENGTH_SHORT).show();
             }
         }
     }
