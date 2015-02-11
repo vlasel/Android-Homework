@@ -1,6 +1,7 @@
 package by.htp.vlas.webbrowser;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,9 +21,11 @@ public class HistoryActivity extends Activity{
 
 //    @InjectView(R.id.history_title)
 //    TextView mTitle;
-//
+
 //    @InjectView(R.id.history_url)
 //    TextView mUrl;
+
+    public final static String HISTORY_ACTIVITY_URL_REQUEST_KEY = "URL_REQUEST";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +41,11 @@ public class HistoryActivity extends Activity{
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(HistoryActivity.this, "item " + position + " click", Toast.LENGTH_SHORT).show();
-                //TODO handler
+                Intent intent = new Intent();
+                HistoryItem historyItem = (HistoryItem) parent.getItemAtPosition(position);
+                intent.putExtra(HISTORY_ACTIVITY_URL_REQUEST_KEY, historyItem.getUrl());
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
 

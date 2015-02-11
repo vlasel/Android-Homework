@@ -1,5 +1,7 @@
 package by.htp.vlas.webbrowser;
 
+import static by.htp.vlas.webbrowser.HistoryActivity.HISTORY_ACTIVITY_URL_REQUEST_KEY;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -45,7 +47,7 @@ public class MainActivity extends Activity {
     private final String TEXT_ENCODING_NAME_DEF = "utf-8";
     private final String SAVE_INSTANCE_ADDRESS_KEY = "address";
     private final String SAVE_INSTANCE_NAVIGATE_BTNS_STATE_KEY = "navigateButtonsState";
-    private final int REQUEST_CODE_HISTORY_ACTIVITY = "navigateButtonsState".hashCode();
+    private final int HISTORY_ACTIVITY_URL_REQUEST = "URL_REQUEST".hashCode();
 
     private HistoryStorage mHistoryStorage = new HistoryStorage();
 
@@ -63,6 +65,7 @@ public class MainActivity extends Activity {
 
     }
 
+    //----------------------- Save-Restore -------------------------------------------
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -80,13 +83,14 @@ public class MainActivity extends Activity {
         mBtnBack.setEnabled(navigateBtnsState[0]);
         mBtnForward.setEnabled(navigateBtnsState[1]);
     }
+    //-----------------------/ Save-Restore -------------------------------------------
 
     @OnClick(R.id.btn_go)
     void btnGoAction() {
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(mAddress.getWindowToken(), 0);
 
-        loadUrl();
+        loadUrl(null);
 
         //TODO change button Go to GoRefresh - and when address  not changed manually, make this button "refresh"
     }
@@ -122,19 +126,26 @@ public class MainActivity extends Activity {
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_HISTORY_ACTIVITY) {
-            String url = data.getData().toString();
-            Toast.makeText(this, url, Toast.LENGTH_SHORT).show();
-        }
+    // ---------------------------- History Activity transfer ----------------------------------
+    private void historyActivityStart(){
+        Intent intent = new Intent(this, HistoryActivity.class);
+        intent.putExtra(mHistoryStorage.getClass().getSimpleName(), mHistoryStorage);
+        this.startActivityForResult(intent, HISTORY_ACTIVITY_URL_REQUEST);
     }
 
-    //############################## private methods ####################################
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(data == null) return;
+//        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == Activity.RESULT_OK && requestCode == HISTORY_ACTIVITY_URL_REQUEST) {
+            String url = data.getStringExtra(HISTORY_ACTIVITY_URL_REQUEST_KEY);
+            loadUrl(url);
+        }
+    }
+    // -----------------------------/ History Activity transfer ---------------------------------
 
-    private void loadUrl(){
-        String urlString = mAddress.getText().toString();
+    private void loadUrl(String pUrl){
+        String urlString = !TextUtils.isEmpty(pUrl) ? pUrl : mAddress.getText().toString();
         if (TextUtils.isEmpty(urlString)) return;
 
         if (!URLUtil.isValidUrl(urlString)) {
@@ -144,12 +155,7 @@ public class MainActivity extends Activity {
         mPage.loadUrl(urlString);
     }
 
-    private void historyActivityStart(){
-        Intent intent = new Intent(this, HistoryActivity.class);
-        intent.putExtra(mHistoryStorage.getClass().getSimpleName(), mHistoryStorage);
-        this.startActivityForResult(intent, REQUEST_CODE_HISTORY_ACTIVITY);
-    }
-
+    //--------------- web View ------------------------------------------
     private void webViewInit() {
         WebSettings webViewSettings = mPage.getSettings();
         webViewSettings.setDefaultTextEncodingName(TEXT_ENCODING_NAME_DEF);
@@ -160,8 +166,6 @@ public class MainActivity extends Activity {
         mPage.setInitialScale(1);
         mPage.setWebViewClient(new MyWebViewClient());
     }
-
-    //################################ private class ############################################
 
     private class MyWebViewClient extends WebViewClient {
         @Override
@@ -181,7 +185,9 @@ public class MainActivity extends Activity {
             super.onPageFinished(view, url);
 
             mHistoryStorage.addInHistory(url, mPage.getTitle());
-            Toast.makeText(MainActivity.this, (url + " " +getString(R.string.msg_history_event)), Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this
+                    ,(url + " " +getString(R.string.msg_history_event))
+                    , Toast.LENGTH_SHORT).show();
 
             if (mPage.canGoBack()) {
                 mBtnBack.setEnabled(true);
@@ -196,5 +202,6 @@ public class MainActivity extends Activity {
             }
         }
     }
+    //---------------------------/ web View ----------------------------
 
 }
