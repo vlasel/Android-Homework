@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WebBrowser</string>
+    <string name="app_name">VlasWebBrowser</string>
     <string name="btn_back">&lt;</string>
     <string name="btn_forward">&gt;</string>
     <string name="btn_go">GO</string>
