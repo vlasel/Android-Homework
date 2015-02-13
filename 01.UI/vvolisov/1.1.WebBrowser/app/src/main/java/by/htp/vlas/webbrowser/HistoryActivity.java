@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import butterknife.ButterKnife;
+import butterknife.OnItemClick;
+
 /**
  * Created by VlasEL on 08.02.2015 16:11
  */
@@ -20,25 +23,22 @@ public class HistoryActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
+        ButterKnife.inject(this);
 
         ListView listView = (ListView) findViewById(android.R.id.list);
         listView.setAdapter(new HistoryAdapter(mHistoryStorage.getHistoryClone()));
+    }
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    @OnItemClick(android.R.id.list)
+    void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        HistoryItem historyItem = (HistoryItem) parent.getItemAtPosition(position);
 
-                HistoryItem historyItem = (HistoryItem) parent.getItemAtPosition(position);
+        Intent intent = new Intent();
+        intent.putExtra(HISTORY_ACTIVITY_URL_REQUEST_KEY, historyItem.getUrl());
 
-                Intent intent = new Intent();
-                intent.putExtra(HISTORY_ACTIVITY_URL_REQUEST_KEY, historyItem.getUrl());
-
-                setResult(RESULT_OK, intent);
-                finish();
-            }
-        });
-
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
 

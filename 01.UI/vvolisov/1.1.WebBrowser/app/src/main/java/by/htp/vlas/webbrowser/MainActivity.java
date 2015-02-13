@@ -47,7 +47,7 @@ public class MainActivity extends Activity {
     private final String TEXT_ENCODING_NAME_DEF = "utf-8";
     private final String STATE_ADDRESS_KEY = "address";
     private final String STATE_NAVIGATE_BTNS_KEY = "navigateButtonsState";
-    private final int HISTORY_ACTIVITY_URL_REQUEST = "URL_REQUEST".hashCode();
+    private final int HISTORY_ACTIVITY_URL_REQUEST = Math.abs("URL_REQUEST".hashCode());
 
     private HistoryStorage mHistoryStorage = new HistoryStorage();
 
@@ -129,15 +129,15 @@ public class MainActivity extends Activity {
     }
 
     // ---------------------------- History Activity transfer ----------------------------------
-    private void historyActivityStart() {
-        Intent intent = new Intent(this, HistoryActivity.class);
-        this.startActivityForResult(intent, HISTORY_ACTIVITY_URL_REQUEST);
+        private void historyActivityStart() {
+            Intent intent = new Intent(this, HistoryActivity.class);
+            this.startActivityForResult(intent, HISTORY_ACTIVITY_URL_REQUEST);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (data == null) return;
-//        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && requestCode == HISTORY_ACTIVITY_URL_REQUEST) {
             String url = data.getStringExtra(HISTORY_ACTIVITY_URL_REQUEST_KEY);
             loadUrl(url);
