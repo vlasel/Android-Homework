@@ -6,9 +6,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.URLUtil;
 import android.webkit.WebSettings;
@@ -37,16 +41,15 @@ public class MainActivity extends Activity {
 //    Button mBtnGo;
 
     @InjectView(R.id.address)
-    EditText mAddress;
+    EditText mAddressView;
 
     @InjectView(R.id.page_data)
-    WebView mPage;
+    WebView mWebView;
 
 
-    private final String URL_PREFIX_DEF = "http://";
+    private final String URI_SCHEME_HTTP = "http://";
     private final String TEXT_ENCODING_NAME_DEF = "utf-8";
     private final String STATE_ADDRESS_KEY = "address";
-    private final String STATE_NAVIGATE_BTNS_KEY = "navigateButtonsState";
     private final int HISTORY_ACTIVITY_URL_REQUEST = Math.abs("URL_REQUEST".hashCode());
 
     private HistoryStorage mHistoryStorage = new HistoryStorage();
@@ -60,112 +63,147 @@ public class MainActivity extends Activity {
 
         mBtnBack.setEnabled(false);
         mBtnForward.setEnabled(false);
+        setOnKeyListenerToAddressView(mAddressView);
 
         webViewInit();
 
-        //TODO onRestoreInstanceState calling later than onCreate, so it's need to restore state in onCreate
+        handleIntent(getIntent());
+    }
+
+    private void handleIntent(Intent pIntent) {
+        if (pIntent == null) return;
+        if (pIntent.getAction().equals(Intent.ACTION_VIEW)) {
+            Uri data = pIntent.getData();
+            if (data != null) {
+                loadUrl(data.toString());
+            }
+        }
     }
 
     //----------------------- Save-Restore -------------------------------------------
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        mPage.saveState(outState);
-        outState.putString(STATE_ADDRESS_KEY, mAddress.getText().toString());
-//        outState.putBooleanArray(STATE_NAVIGATE_BTNS_KEY, new boolean[]{mBtnBack.isEnabled(), mBtnForward.isEnabled()});
+        mWebView.saveState(outState);
+        outState.putCharSequence(STATE_ADDRESS_KEY, mAddressView.getText());
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        mPage.restoreState(savedInstanceState);
-        mAddress.setText(savedInstanceState.getString(STATE_ADDRESS_KEY));
-        //TODO if button has id - this state must besaved automatically
-//        boolean[] navigateBtnsState = savedInstanceState.getBooleanArray(STATE_NAVIGATE_BTNS_KEY);
-//        mBtnBack.setEnabled(navigateBtnsState[0]);
-//        mBtnForward.setEnabled(navigateBtnsState[1]);
+        mWebView.restoreState(savedInstanceState);
+        mAddressView.setText(savedInstanceState.getCharSequence(STATE_ADDRESS_KEY));
     }
     //-----------------------/ Save-Restore -------------------------------------------
 
     @OnClick(R.id.btn_go)
     void btnGoAction() {
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(mAddress.getWindowToken(), 0);
-
         loadUrl(null);
-
-        //TODO change button Go to GoRefresh - and when address  not changed manually, make this button "refresh"
     }
 
     @OnClick(R.id.btn_back)
     void goBack() {
-        mPage.goBack();
+        mWebView.goBack();
     }
 
     @OnClick(R.id.btn_forward)
     void goForward() {
-        mPage.goForward();
+        mWebView.goForward();
     }
 
+    private void loadUrl(String pLinkAddressString) {
+        String uriString = (!TextUtils.isEmpty(pLinkAddressString)) ? pLinkAddressString : mAddressView.getText().toString();
+        if (TextUtils.isEmpty(uriString)) return;
+
+        hideSoftKeyboard(mAddressView);
+
+        if (!URLUtil.isValidUrl(uriString)) {
+            Uri uri = Uri.parse(uriString);
+            String uriScheme = uri.getScheme();
+            if (TextUtils.isEmpty(uriScheme)) {
+                uriString = URI_SCHEME_HTTP + uriString;
+            }
+        }
+        mAddressView.setText(uriString);
+        mWebView.loadUrl(uriString);
+    }
+
+    // ---------------------------- Key Events ----------------------------------
     @Override
-    public boolean onKeyDown(int keycode, KeyEvent e) {
+    public boolean onKeyDown(int keycode, KeyEvent event) {
         switch (keycode) {
             case KeyEvent.KEYCODE_BACK: {
-                if (mPage.canGoBack()) {
+                if (mWebView.canGoBack()) {
                     goBack();
                     return true;
                 } else {
-                    return super.onKeyDown(keycode, e);
+                    return super.onKeyDown(keycode, event);
                 }
             }
             case KeyEvent.KEYCODE_MENU: {
-                historyActivityStart();
+                invokeHistoryActivity();
                 return true;
             }
             default: {
-                return super.onKeyDown(keycode, e);
+                return super.onKeyDown(keycode, event);
             }
         }
     }
 
-    // ---------------------------- History Activity transfer ----------------------------------
-        private void historyActivityStart() {
-            Intent intent = new Intent(this, HistoryActivity.class);
-            this.startActivityForResult(intent, HISTORY_ACTIVITY_URL_REQUEST);
+    private void setOnKeyListenerToAddressView(View view) {
+        view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == EditorInfo.IME_ACTION_SEARCH ||
+                        keyCode == EditorInfo.IME_ACTION_DONE ||
+                        event.getKeyCode() == KeyEvent.KEYCODE_ENTER
+                        ) {
+                    loadUrl(null);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+    }
+
+    private boolean hideSoftKeyboard(View pView) {
+        boolean result = false;
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm.isActive(pView)) {
+            result = imm.hideSoftInputFromWindow(pView.getWindowToken(), 0);
+        }
+        return result;
+    }
+    // ----------------------------/ Key Events ----------------------------------
+
+    // ---------------------------- History Activity ----------------------------------
+    private void invokeHistoryActivity() {
+        Intent intent = new Intent(this, HistoryActivity.class);
+        this.startActivityForResult(intent, HISTORY_ACTIVITY_URL_REQUEST);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (data == null) return;
-        if (resultCode == Activity.RESULT_OK && requestCode == HISTORY_ACTIVITY_URL_REQUEST) {
+        if (requestCode == HISTORY_ACTIVITY_URL_REQUEST && resultCode == Activity.RESULT_OK) {
             String url = data.getStringExtra(HISTORY_ACTIVITY_URL_REQUEST_KEY);
             loadUrl(url);
         }
     }
-    // -----------------------------/ History Activity transfer ---------------------------------
-
-    private void loadUrl(String pUrl) {
-        String urlString = !TextUtils.isEmpty(pUrl) ? pUrl : mAddress.getText().toString();
-        if (TextUtils.isEmpty(urlString)) return;
-
-        if (!URLUtil.isValidUrl(urlString)) {
-            urlString = URL_PREFIX_DEF + urlString;
-            mAddress.setText(urlString);
-        }
-        mPage.loadUrl(urlString);
-    }
+    // -----------------------------/ History Activity ---------------------------------
 
     //--------------- web View ------------------------------------------
     private void webViewInit() {
-        WebSettings webViewSettings = mPage.getSettings();
+        WebSettings webViewSettings = mWebView.getSettings();
         webViewSettings.setDefaultTextEncodingName(TEXT_ENCODING_NAME_DEF);
         webViewSettings.setJavaScriptEnabled(true);
         webViewSettings.setBuiltInZoomControls(true);
         webViewSettings.setDisplayZoomControls(false);
         webViewSettings.setUseWideViewPort(true);
-        mPage.setInitialScale(1);
-        mPage.setWebViewClient(new MyWebViewClient());
+        mWebView.setInitialScale(1);
+        mWebView.setWebViewClient(new MyWebViewClient());
     }
 
     private class MyWebViewClient extends WebViewClient {
@@ -178,7 +216,7 @@ public class MainActivity extends Activity {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
-            mAddress.setText(url);
+            mAddressView.setText(url);
         }
 
         @Override
@@ -191,10 +229,10 @@ public class MainActivity extends Activity {
         @Override
         public void doUpdateVisitedHistory(WebView view, String url, boolean isReload) {
             super.doUpdateVisitedHistory(view, url, isReload);
-            if(!isReload) {
+            if (!isReload) {
                 mHistoryStorage.addInHistory(url, view.getTitle());
                 Toast.makeText(MainActivity.this
-                        , (url + " " + getString(R.string.msg_history_event))
+                        , (url + "\n" + getString(R.string.msg_history_event))
                         , Toast.LENGTH_SHORT).show();
             }
         }

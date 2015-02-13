@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by VlasEL on 08.02.2015 16:35
  */
-public class HistoryItem implements Serializable{
+public class HistoryItem implements Serializable {
 
     public HistoryItem() {
     }

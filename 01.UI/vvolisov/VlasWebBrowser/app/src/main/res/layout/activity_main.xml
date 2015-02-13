@@ -37,12 +37,14 @@
         android:id="@+id/address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/btn_go"
         android:layout_toLeftOf="@id/btn_go"
         android:layout_toRightOf="@id/btn_forward"
         android:hint="@string/address_hint"
         android:inputType="textUri"
         android:textAppearance="@android:style/TextAppearance.Small"
         tools:text="address"
+
         />
 
     <WebView
