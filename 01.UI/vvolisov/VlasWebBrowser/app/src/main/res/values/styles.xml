@@ -7,7 +7,6 @@
     <style name="Widget.WebBrowser.ButtonStyle" parent="android:Widget.Holo.Light.Button">
         <item name="android:minHeight">1dp</item>
         <item name="android:minWidth">1dp</item>
-        <item name="android:layout_marginBottom">2dp</item>
     </style>
 
     <style name="Widget.WebBrowser.ButtonStyle.ButtonOKStyle">
