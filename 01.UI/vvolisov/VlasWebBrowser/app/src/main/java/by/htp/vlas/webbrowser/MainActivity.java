@@ -117,15 +117,21 @@ public class MainActivity extends Activity {
 
         hideSoftKeyboard(mAddressView);
 
-        if (!URLUtil.isValidUrl(uriString)) {
-            Uri uri = Uri.parse(uriString);
-            String uriScheme = uri.getScheme();
-            if (TextUtils.isEmpty(uriScheme)) {
-                uriString = URI_SCHEME_HTTP + uriString;
-            }
-        }
+        uriString = validateUriString(uriString);
+
         mAddressView.setText(uriString);
         mWebView.loadUrl(uriString);
+    }
+
+    private String validateUriString(String pUriString) {
+        if (!URLUtil.isValidUrl(pUriString)) {
+            Uri uri = Uri.parse(pUriString);
+            String uriScheme = uri.getScheme();
+            if (TextUtils.isEmpty(uriScheme)) {
+                pUriString = URI_SCHEME_HTTP + pUriString;
+            }
+        }
+        return pUriString;
     }
 
     // ---------------------------- Key Events ----------------------------------
