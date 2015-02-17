@@ -47,6 +47,7 @@ public class MainActivity extends Activity {
     WebView mWebView;
 
 
+    private final String TAG = "MainActivity";
     private final String URI_SCHEME_HTTP = "http://";
     private final String TEXT_ENCODING_NAME_DEF = "utf-8";
     private final String STATE_ADDRESS_KEY = "address";
@@ -71,9 +72,16 @@ public class MainActivity extends Activity {
     }
 
     private void handleIntent(Intent pIntent) {
-        if (pIntent == null) return;
+        Log.d(TAG, "\nintent = " + pIntent);
+
+        if (pIntent == null) {
+            return;
+        }
         if (pIntent.getAction().equals(Intent.ACTION_VIEW)) {
             Uri data = pIntent.getData();
+
+            Log.d(TAG, "intent data = " + data);
+
             if (data != null) {
                 loadUrl(data.toString());
             }
