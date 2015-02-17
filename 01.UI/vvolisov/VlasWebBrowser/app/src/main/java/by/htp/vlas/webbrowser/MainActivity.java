@@ -79,9 +79,6 @@ public class MainActivity extends Activity {
         }
         if (pIntent.getAction().equals(Intent.ACTION_VIEW)) {
             Uri data = pIntent.getData();
-
-            Log.d(TAG, "intent data = " + data);
-
             if (data != null) {
                 loadUrl(data.toString());
             }
