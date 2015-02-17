@@ -26,7 +26,7 @@ public class HistoryActivity extends Activity {
         ButterKnife.inject(this);
 
         ListView listView = (ListView) findViewById(android.R.id.list);
-        listView.setAdapter(new HistoryAdapter(mHistoryStorage.getHistoryClone()));
+        listView.setAdapter(new HistoryAdapter(mHistoryStorage.getHistory()));
     }
 
     @OnItemClick(android.R.id.list)

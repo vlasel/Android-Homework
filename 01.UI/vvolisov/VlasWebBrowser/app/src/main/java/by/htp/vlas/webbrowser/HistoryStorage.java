@@ -2,6 +2,7 @@ package by.htp.vlas.webbrowser;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -18,11 +19,7 @@ public final class HistoryStorage implements Serializable, Cloneable {
     }
 
     public List<HistoryItem> getHistory() {
-        return history;
-    }
-
-    protected List<HistoryItem> getHistoryClone() {
-        return new ArrayList<>(history);
+        return Collections.unmodifiableList(history);
     }
 
     public void setHistory(List<HistoryItem> history) {
