@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">LinkViewer</string>
+    <string name="link_address_hint">Введите адрес ссылки</string>
+    <string name="btn_go_text">Открыть</string>
+    <string name="msg_not_resolved_activity">Подходящее приложение не обнаружено!</string>
+    <string name="msg_blank_link_address">Строка адреса пуста!</string>
+</resources>

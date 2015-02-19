@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">LinkViewer</string>
+    <string name="link_address_hint">Enter link address</string>
+    <string name="btn_go_text">GO</string>
+
+    <string name="msg_blank_link_address">Blank link address!</string>
+    <string name="msg_not_resolved_activity">Suitable application is not found!</string>
+</resources>
