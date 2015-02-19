@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -47,7 +46,7 @@ public class ContactActivity extends Activity {
     @InjectView(R.id.occupation)
     TextView mOccupationView;
 
-    public static final String EXTRA_CONTACT = "contact_id";
+    public static final String EXTRA_CONTACT_POSITION = "contact_position";
 
     ContactStorage mContactStorage = new ContactStorage();
 
@@ -57,12 +56,12 @@ public class ContactActivity extends Activity {
         setContentView(R.layout.activity_contact);
         ButterKnife.inject(this);
 
-        Contact contact = mContactStorage.getById(getIntent().getIntExtra(EXTRA_CONTACT, 0));
+        Contact contact = mContactStorage.getById(getIntent().getIntExtra(EXTRA_CONTACT_POSITION, 0));
 
-        init(contact);
+        setDataToViews(contact);
     }
 
-    private void init(Contact contact){
+    private void setDataToViews(Contact contact){
         if(contact == null) {
             return;
         }
