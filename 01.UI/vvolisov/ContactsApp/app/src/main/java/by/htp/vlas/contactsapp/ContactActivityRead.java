@@ -3,7 +3,11 @@ package by.htp.vlas.contactsapp;
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -12,21 +16,7 @@ import contacts.vlas.htp.by.contactsapp.R;
 /**
  * Created by _guest on 02.02.2015.
  */
-public class ContactActivity extends Activity {
-
-//    private static Contact contact = new Contact();
-////    private static final DateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//
-//    static {
-//        Calendar sCalendar = Calendar.getInstance();
-//        sCalendar.set(1990, 10, 1);
-//        contact.setName("Ivan Ivanov");
-//        contact.setPhone("7775533");
-//        contact.setAddress("Skoriny 58");
-//        contact.setEmail("ivan@gmail.com");
-//        contact.setBirthDate(sCalendar.getTime());
-//        contact.setOccupation("Android Developer");
-//    }
+public class ContactActivityRead extends Activity {
 
     @InjectView(R.id.name)
     TextView mNameView;
@@ -53,12 +43,30 @@ public class ContactActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contact);
+        setContentView(R.layout.activity_contact_read);
         ButterKnife.inject(this);
 
         Contact contact = mContactStorage.getById(getIntent().getIntExtra(EXTRA_CONTACT_POSITION, 0));
 
         setDataToViews(contact);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_activity_contact_read, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_edit:
+                Toast.makeText(this, "action EDIT", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void setDataToViews(Contact contact){

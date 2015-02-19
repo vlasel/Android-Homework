@@ -5,4 +5,5 @@
     <string name="action_add_title">Add</string>
     <string name="action_remove_title">Remove</string>
     <string name="action_clear_title">Clear</string>
+    <string name="action_edit_title">Edit</string>
 </resources>
