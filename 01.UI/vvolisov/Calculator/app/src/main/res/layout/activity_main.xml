@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+    >
+
+    <View
+        android:id="@+id/fake_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true"
+        />
+
+    <EditText
+        android:id="@+id/operand1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/fake_view"
+        android:layout_marginRight="8dp"
+        android:gravity="center"
+        tools:text="operand1"
+        style="@style/Calculator.Widget.TextViews.Operand"
+        android:hint="@string/operand1_hint"
+        />
+
+    <EditText
+        android:id="@+id/operand2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/fake_view"
+        android:layout_marginLeft="8dp"
+        android:gravity="center"
+        tools:text="operand2"
+        style="@style/Calculator.Widget.TextViews.Operand"
+        android:hint="@string/operand2_hint"
+        />
+
+    <RadioGroup
+        android:id="@+id/rb_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/operand2"
+        >
+
+        <RadioButton
+            android:id="@+id/rb_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/operation_add"
+            style="@style/Calculator.Widget.RadioButton"
+            />
+
+        <RadioButton
+            android:id="@+id/rb_sub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/operation_sub"
+            style="@style/Calculator.Widget.RadioButton"
+            />
+
+        <RadioButton
+            android:id="@+id/rb_div"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/operation_div"
+            style="@style/Calculator.Widget.RadioButton"
+            />
+
+        <RadioButton
+            android:id="@+id/rb_mult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/operation_mult"
+            style="@style/Calculator.Widget.RadioButton"
+            />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/bt_calc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rb_group"
+        android:text="@string/btn_calculate"
+        style="@style/Calculator.Widget.Button"
+        />
+
+    <TextView
+        android:id="@+id/result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bt_calc"
+        android:gravity="center_horizontal"
+        tools:text="result"
+        style="@style/Calculator.Widget.TextViews.Result"
+        />
+
+</RelativeLayout>

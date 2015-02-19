@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">VlasCalculator</string>
+
+    <string name="operand1">operand1</string>
+    <string name="operand2">operand2</string>
+    <string name="operand1_hint">Operand 1</string>
+    <string name="operand2_hint">Operand 2</string>
+    <string name="result">Result</string>
+
+    <string name="operation">Operation</string>
+    <string name="operation_add">Add</string>
+    <string name="operation_sub">Subtract</string>
+    <string name="operation_div">Divide</string>
+    <string name="operation_mult">Multiplicate</string>
+
+    <string name="btn_calculate">CALC</string>
+
+    <string name="error_empty_argument">Error!\nEmpty argument</string>
+    <string name="error_divide_to_zero">Error!\nDivide to zero</string>
+</resources>

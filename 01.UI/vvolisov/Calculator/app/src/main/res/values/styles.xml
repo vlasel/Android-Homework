@@ -1,0 +1,31 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="Calculator.Widget.TextViews" parent="android:TextAppearance.Holo.Large">
+    </style>
+
+    <style name="Calculator.Widget.RadioButton" parent="android:TextAppearance.Holo.Medium">
+    </style>
+
+    <style name="Calculator.Widget.Button" parent="android:TextAppearance.Holo.Large">
+    </style>
+
+    <style name="Calculator.Widget.TextViews.Operand">
+        <item name="android:inputType">numberDecimal</item>
+    </style>
+
+    <style name="Calculator.Widget.TextViews.Result">
+    </style>
+
+    <!--<style name="Calculator.Widget.TextEdit"-->
+
+
+    <!--<style name="Calculator_Font">-->
+        <!--<item name=""-->
+    <!--</style>-->
+
+</resources>

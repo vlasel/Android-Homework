@@ -1,0 +1,16 @@
+<resources>
+    <string name="operand1">Операнд1</string>
+    <string name="operand2">Операнд2</string>
+    <string name="operation">Действие</string>
+    <string name="operation_add">Сложение</string>
+    <string name="operation_sub">Вычетание</string>
+    <string name="operation_div">Деление</string>
+    <string name="operation_mult">Умножение</string>
+    <string name="btn_calculate">СЧИТАТЬ</string>
+    <string name="result">Результат</string>
+    <string name="app_name">VlasCalculator</string>
+    <string name="operand1_hint">Операнд 1</string>
+    <string name="operand2_hint">Операнд 2</string>
+    <string name="error_empty_argument">Ошибка!\nПустой аргумент</string>
+    <string name="error_divide_to_zero">Ошибка!\nДеление на ноль</string>
+</resources>
