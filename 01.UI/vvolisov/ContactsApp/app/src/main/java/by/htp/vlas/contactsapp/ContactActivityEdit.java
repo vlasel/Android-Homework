@@ -1,6 +1,7 @@
 package by.htp.vlas.contactsapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.widget.TextView;
@@ -15,7 +16,7 @@ import contacts.vlas.htp.by.contactsapp.R;
  */
 public class ContactActivityEdit extends Activity {
 
-    @InjectView(R.id.name)
+    @InjectView(R.id.nameRead)
     TextView mNameView;
 
     @InjectView(R.id.phone)
@@ -34,6 +35,7 @@ public class ContactActivityEdit extends Activity {
     TextView mOccupationView;
 
     public static final String EXTRA_CONTACT_POSITION = "contact_position";
+    public static final String EXTRA_CONTACT_CHANGED = "contact_changed";
 
     ContactStorage mContactStorage = new ContactStorage();
 
@@ -50,7 +52,11 @@ public class ContactActivityEdit extends Activity {
 
     @OnClick(R.id.btn_save)
     void btnSaveActin() {
-
+        //TODO save Contact
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_CONTACT_CHANGED, true);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     private void setDataToViews(Contact contact){

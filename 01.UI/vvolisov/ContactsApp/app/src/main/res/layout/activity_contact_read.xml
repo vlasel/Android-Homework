@@ -26,58 +26,58 @@
             android:gravity="center"
             >
 
-            <TextView
-                android:id="@+id/name"
+            <EditText
+                android:id="@+id/nameRead"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="Vasia Pupkin"
                 android:inputType="textPersonName"
-                style="@style/ContactsApp.Widget.TextView.Textappearance"
+                style="@style/ContactsApp.Widget.EditText.Textappearance"
                 />
 
-            <TextView
-                android:id="@+id/phone"
+            <EditText
+                android:id="@+id/phoneRead"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="8889900"
                 android:inputType="phone"
-                style="@style/ContactsApp.Widget.TextView.Textappearance"
+                style="@style/ContactsApp.Widget.EditText.Textappearance"
                 />
 
-            <TextView
-                android:id="@+id/email"
+            <EditText
+                android:id="@+id/emailRead"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="vasia@mail.ru"
                 android:inputType="textEmailAddress"
-                style="@style/ContactsApp.Widget.TextView.Textappearance"
+                style="@style/ContactsApp.Widget.EditText.Textappearance"
                 />
 
-            <TextView
-                android:id="@+id/address"
+            <EditText
+                android:id="@+id/addressRead"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="Nikiforova 21"
                 android:inputType="textPostalAddress"
-                style="@style/ContactsApp.Widget.TextView.Textappearance"
+                style="@style/ContactsApp.Widget.EditText.Textappearance"
                 />
 
-            <TextView
-                android:id="@+id/birthdate"
+            <EditText
+                android:id="@+id/birthdateRead"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="1983-12-25"
                 android:inputType="date"
-                style="@style/ContactsApp.Widget.TextView.Textappearance"
+                style="@style/ContactsApp.Widget.EditText.Textappearance"
                 />
 
-            <TextView
-                android:id="@+id/occupation"
+            <EditText
+                android:id="@+id/occupationRead"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="Engineer"
                 android:inputType="text"
-                style="@style/ContactsApp.Widget.TextView.Textappearance"
+                style="@style/ContactsApp.Widget.EditText.Textappearance"
                 />
 
         </LinearLayout>
