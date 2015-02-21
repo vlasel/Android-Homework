@@ -11,19 +11,30 @@ import java.util.Map;
  */
 public final class HistoryStorage implements Serializable, Cloneable {
 
-    private static List<HistoryItem> history = new ArrayList<>();
+    private List<HistoryItem> history = new ArrayList<>();
 
-    public static void addInHistory(String pUrl, String pTitle) {
+    private HistoryStorage() {
+    }
+
+    public void addInHistory(String pUrl, String pTitle) {
         HistoryItem historyItem = new HistoryItem(pUrl, pTitle);
         history.add(historyItem);
     }
 
     public List<HistoryItem> getHistory() {
-        return Collections.unmodifiableList(history);
+        return Collections.unmodifiableList(this.history);
     }
 
     public void setHistory(List<HistoryItem> history) {
-        HistoryStorage.history = history;
+        this.history = history;
+    }
+
+    private static class HistoryStorageHolder {
+        private final static HistoryStorage instance = new HistoryStorage();
+    }
+
+    public static HistoryStorage getInstance() {
+        return HistoryStorageHolder.instance;
     }
 
 }

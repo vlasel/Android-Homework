@@ -56,7 +56,7 @@ public class MainActivity extends Activity {
     private final String PREF_LAST_URL = "last_url";
     private final int HISTORY_ACTIVITY_URL_REQUEST = Math.abs("URL_REQUEST".hashCode());
 
-    private HistoryStorage mHistoryStorage = new HistoryStorage();
+    private HistoryStorage mHistoryStorage = HistoryStorage.getInstance();
 
 
     @Override

@@ -15,7 +15,7 @@ import butterknife.OnItemClick;
  */
 public class HistoryActivity extends Activity {
 
-    private HistoryStorage mHistoryStorage = new HistoryStorage();
+    private HistoryStorage mHistoryStorage = HistoryStorage.getInstance();
 
     public final static String HISTORY_ACTIVITY_URL_REQUEST_KEY = "URL_REQUEST";
 
