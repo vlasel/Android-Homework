@@ -11,11 +11,11 @@ import by.htp.vlas.contactsapp.Contact;
  */
 public class VirtualContactStorage implements ContactStorage {
 
-    private List<Contact> contactsList = new ArrayList<>();
+    private List<Contact> mContactsList = new ArrayList<>();
 
     //generate random contacts data
     {
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 5; i++) {
             saveOrUpdate(generateContact(i));
         }
     }
@@ -23,7 +23,7 @@ public class VirtualContactStorage implements ContactStorage {
     private VirtualContactStorage() {
     }
 
-    public Contact generateContact(int pPositionNumber){
+    public static Contact generateContact(int pPositionNumber) {
         Contact contact = new Contact(
                 String.valueOf((int) ((Math.random() + 1) * 1111111))
                 , "Name " + pPositionNumber
@@ -37,28 +37,28 @@ public class VirtualContactStorage implements ContactStorage {
 
     @Override
     public List<Contact> list() {
-        return contactsList;
+        return mContactsList;
     }
 
     @Override
     public Contact get(int pId) {
-        if (pId < 0 || pId >= contactsList.size()) {
+        if (pId < 0 || pId >= mContactsList.size()) {
             return null;
         }
-        return contactsList.get(pId);
+        return mContactsList.get(pId);
     }
 
     @Override
     public Contact saveOrUpdate(Contact pContact) {
         Contact contact = pContact;
-        if(pContact == null) {
+        if (pContact == null) {
             throw new NullPointerException();
         }
-        if(pContact.getId() == null) {
+        if (pContact.getId() == null) {
             contact = insert(pContact);
         } else {
             contact = get(pContact.getId());
-            if(contact != null) {
+            if (contact != null) {
                 updateContactData(pContact, contact);
             } else {
                 throw new RuntimeException("Entity with id = " + pContact.getId()
@@ -68,10 +68,15 @@ public class VirtualContactStorage implements ContactStorage {
         return contact;
     }
 
+    @Override
+    public void delete(Contact pContact) {
+        mContactsList.remove(pContact);
+    }
+
     private Contact insert(Contact pContact) {
         Contact contact = new Contact(pContact);
-        contact.setId(contactsList.size());
-        contactsList.add(contact);
+        contact.setId(mContactsList.size());
+        mContactsList.add(contact);
         return contact;
     }
 

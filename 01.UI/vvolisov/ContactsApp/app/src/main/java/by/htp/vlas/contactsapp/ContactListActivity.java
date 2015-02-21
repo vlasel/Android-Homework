@@ -2,6 +2,7 @@ package by.htp.vlas.contactsapp;
 
 import static by.htp.vlas.contactsapp.ContactActivityRead.EXTRA_CONTACT_POSITION;
 import static by.htp.vlas.contactsapp.ContactActivityEdit.EXTRA_CONTACT_CHANGED;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,10 +15,13 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
+
 import by.htp.vlas.contactsapp.persistence.ContactStorage;
 import by.htp.vlas.contactsapp.persistence.VirtualContactStorage;
 import contacts.vlas.htp.by.contactsapp.R;
-
 
 
 /**
@@ -71,16 +75,24 @@ public class ContactListActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        Contact contact;
         switch (item.getItemId()) {
             case R.id.action_add:
-                Toast.makeText(this, "action ADD", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "action ADD", Toast.LENGTH_SHORT).show();
+                contact = VirtualContactStorage.generateContact((int) (Math.random() * 900 + 100));
+                mContactStorage.saveOrUpdate(contact);
+                mAdapter.notifyDataSetChanged();
                 return true;
             case R.id.action_remove:
-                Toast.makeText(this, "action REMOVE", Toast.LENGTH_SHORT).show();
+                contact = mContactStorage.get(mAdapter.getCount() - 1);
+                mContactStorage.delete(contact);
+                mAdapter.notifyDataSetChanged();
                 return true;
             case R.id.action_clear:
-                Toast.makeText(this, "action CLEAR", Toast.LENGTH_SHORT).show();
+                for(Contact cont : new ArrayList<>(mContactStorage.list())) {
+                    mContactStorage.delete(cont);
+                }
+                mAdapter.notifyDataSetChanged();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

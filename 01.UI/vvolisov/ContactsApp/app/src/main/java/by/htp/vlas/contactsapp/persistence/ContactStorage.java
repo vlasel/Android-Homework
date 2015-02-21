@@ -17,13 +17,14 @@ public interface ContactStorage {
 
     /**
      * Save new contact in persistence storage, if pContact.id = null, <br>
-     *     or update contact, existing in persistence storage with id = pContact.id
+     * or update contact, existing in persistence storage with id = pContact.id
+     *
      * @param pContact contact to saveOrUpdate or update
      * @return persistent Contact object with id
      * @throws java.lang.NullPointerException if pContact == null
      */
     Contact saveOrUpdate(Contact pContact);
 
-
+    void delete(Contact pContact);
 
 }
