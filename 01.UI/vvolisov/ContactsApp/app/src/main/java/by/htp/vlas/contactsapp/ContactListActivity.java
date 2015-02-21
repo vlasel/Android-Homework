@@ -14,8 +14,8 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.List;
-
+import by.htp.vlas.contactsapp.persistence.ContactStorage;
+import by.htp.vlas.contactsapp.persistence.VirtualContactStorage;
 import contacts.vlas.htp.by.contactsapp.R;
 
 
@@ -27,7 +27,7 @@ public class ContactListActivity extends Activity {
 
     public static final int INTENT_REQUEST_CONTACT_READ_EDIT = Math.abs("contact_read_edit_request".hashCode());
 
-    private ContactStorage mContactStorage = ContactStorage.getInstance();
+    private ContactStorage mContactStorage = VirtualContactStorage.getInstance();
     private BaseAdapter mAdapter;
 
     @Override

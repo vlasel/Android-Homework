@@ -1,37 +1,46 @@
-package by.htp.vlas.contactsapp;
+package by.htp.vlas.contactsapp.persistence;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import by.htp.vlas.contactsapp.Contact;
+
 /**
  * Created by VlasEL on 17.02.2015 19:03
  */
-public class ContactStorage {
+public class VirtualContactStorage implements ContactStorage {
 
     private List<Contact> contactsList = new ArrayList<>();
 
     //generate random contacts data
     {
         for (int i = 0; i < 100; i++) {
-            saveOrUpdate(new Contact(
-                    String.valueOf((int) ((Math.random() + 1) * 1111111))
-                    , "Name " + i
-                    , "mail" + i + "@server"
-                    , "Street " + i
-                    , new Date(1995 + i, 10, 15)
-                    , "user " + i
-            ));
+            saveOrUpdate(generateContact(i));
         }
     }
 
-    private ContactStorage() {
+    private VirtualContactStorage() {
     }
 
+    public Contact generateContact(int pPositionNumber){
+        Contact contact = new Contact(
+                String.valueOf((int) ((Math.random() + 1) * 1111111))
+                , "Name " + pPositionNumber
+                , "mail" + pPositionNumber + "@server"
+                , "Street " + pPositionNumber
+                , new Date(1995 + pPositionNumber, 10, 15)
+                , "user " + pPositionNumber
+        );
+        return contact;
+    }
+
+    @Override
     public List<Contact> list() {
         return contactsList;
     }
 
+    @Override
     public Contact get(int pId) {
         if (pId < 0 || pId >= contactsList.size()) {
             return null;
@@ -39,13 +48,7 @@ public class ContactStorage {
         return contactsList.get(pId);
     }
 
-    /**
-     * Save new contact in persistence storage, if pContact.id = null, <br>
-     *     or update contact, existing in persistence storage with id = pContact.id
-     * @param pContact contact to saveOrUpdate or update
-     * @return persistent Contact object with id
-     * @throws java.lang.NullPointerException if pContact == null
-     */
+    @Override
     public Contact saveOrUpdate(Contact pContact) {
         Contact contact = pContact;
         if(pContact == null) {
@@ -82,10 +85,10 @@ public class ContactStorage {
     }
 
     private static class ContactStorageHolder {
-        private final static ContactStorage instance = new ContactStorage();
+        private final static VirtualContactStorage instance = new VirtualContactStorage();
     }
 
-    public static ContactStorage getInstance() {
+    public static VirtualContactStorage getInstance() {
         return ContactStorageHolder.instance;
     }
 

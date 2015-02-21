@@ -13,6 +13,8 @@ import java.util.Date;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import by.htp.vlas.contactsapp.persistence.ContactStorage;
+import by.htp.vlas.contactsapp.persistence.VirtualContactStorage;
 import contacts.vlas.htp.by.contactsapp.R;
 
 /**
@@ -41,7 +43,7 @@ public class ContactActivityEdit extends Activity {
     public static final String EXTRA_CONTACT_POSITION = "contact_position";
     public static final String EXTRA_CONTACT_CHANGED = "contact_changed";
 
-    ContactStorage mContactStorage = ContactStorage.getInstance();
+    ContactStorage mContactStorage = VirtualContactStorage.getInstance();
     Contact mContact;
 
     @Override

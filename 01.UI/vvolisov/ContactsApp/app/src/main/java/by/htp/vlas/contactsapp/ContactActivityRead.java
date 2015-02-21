@@ -1,6 +1,5 @@
 package by.htp.vlas.contactsapp;
 
-import static by.htp.vlas.contactsapp.ContactActivityEdit.EXTRA_CONTACT_CHANGED;
 import static by.htp.vlas.contactsapp.ContactListActivity.INTENT_REQUEST_CONTACT_READ_EDIT;
 
 import android.app.Activity;
@@ -16,6 +15,8 @@ import android.widget.TextView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import by.htp.vlas.contactsapp.persistence.ContactStorage;
+import by.htp.vlas.contactsapp.persistence.VirtualContactStorage;
 import contacts.vlas.htp.by.contactsapp.R;
 
 /**
@@ -46,7 +47,7 @@ public class ContactActivityRead extends Activity {
 
 //    private int intentForTransitResultRequestCode;
 
-    ContactStorage mContactStorage = ContactStorage.getInstance();
+    ContactStorage mContactStorage = VirtualContactStorage.getInstance();
     Contact mContact;
 
     @Override
