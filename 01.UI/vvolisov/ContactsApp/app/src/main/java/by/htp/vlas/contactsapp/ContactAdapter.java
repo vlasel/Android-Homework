@@ -16,7 +16,7 @@ import contacts.vlas.htp.by.contactsapp.R;
 public class ContactAdapter extends BaseAdapter {
 
     List<Contact> mContactList;
-    ViewHolder mViewHolder;
+//    ViewHolder mViewHolder;
 
     TextView mNameView;
     TextView mPhoneView;
@@ -66,9 +66,9 @@ public class ContactAdapter extends BaseAdapter {
         return itemView;
     }
 
-    private class ViewHolder {
-        TextView nameView;
-        TextView phoneView;
-    }
+//    private class ViewHolder {
+//        TextView nameView;
+//        TextView phoneView;
+//    }
 
 }

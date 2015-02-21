@@ -14,6 +14,7 @@
         </activity>
 
         <activity android:name="by.htp.vlas.contactsapp.ContactActivityRead"/>
+        <activity android:name="by.htp.vlas.contactsapp.ContactActivityEdit"/>
 
     </application>
 

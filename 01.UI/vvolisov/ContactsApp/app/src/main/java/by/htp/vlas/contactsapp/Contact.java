@@ -9,7 +9,7 @@ public class Contact {
 
     private static int sCounter = 0;
 
-    private int mId;
+    private Integer mId;
     private String mPhone;
     private String mName;
     private String mEmail;
@@ -19,11 +19,11 @@ public class Contact {
 
 
     public Contact() {
-        mId = ++sCounter;
+//        mId = ++sCounter;
     }
 
     public Contact(String phone, String name, String email, String address, Date birthDate, String occupation) {
-        mId = ++sCounter;
+//        mId = ++sCounter;
         mPhone = phone;
         mName = name;
         mEmail = email;
@@ -32,16 +32,32 @@ public class Contact {
         mOccupation = occupation;
     }
 
+    public Contact(Contact pContact) {
+        if(pContact.getId() != null) {
+            mId = pContact.getId();
+        }
+        mPhone = pContact.getPhone();
+        mName = pContact.getName();
+        mEmail = pContact.getEmail();
+        mAddress = pContact.getAddress();
+        mBirthDate = pContact.getBirthDate();
+        mOccupation = pContact.getOccupation();
+    }
+
+    public Integer getId() {
+        return mId;
+    }
+
+    public void setId(Integer id) {
+        mId = id;
+    }
+
     public String getPhone() {
         return mPhone;
     }
 
     public void setPhone(String phone) {
         mPhone = phone;
-    }
-
-    public int getId() {
-        return mId;
     }
 
     public String getName() {

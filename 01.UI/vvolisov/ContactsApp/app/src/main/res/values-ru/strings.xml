@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ContactsApp</string>
+    <string name="btn_save">Сохранить</string>
+    <string name="action_add_title">Добавить</string>
+    <string name="action_remove_title">Удалить</string>
+    <string name="action_clear_title">Очистить</string>
+    <string name="action_edit_title">Изменить</string>
+    <string name="error_date_format">Неверный формат даты!\nДолжен быть: yyyy-MM-dd</string>
+    <string name="title_activity_contact_edit">Редактирование контакта</string>
+    <string name="title_activity_contact_read">Просмотр контакта</string>
+</resources>

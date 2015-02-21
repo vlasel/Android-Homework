@@ -10,4 +10,9 @@
         <item name="android:paddingBottom">4dp</item>
     </style>
 
+    <style name="ContactsApp.Widget.ActivityTitle.Textappearance" parent="android:TextAppearance.Holo.Large">
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
 </resources>

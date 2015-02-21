@@ -1,6 +1,8 @@
 package by.htp.vlas.contactsapp;
 
 import static by.htp.vlas.contactsapp.ContactActivityEdit.EXTRA_CONTACT_CHANGED;
+import static by.htp.vlas.contactsapp.ContactListActivity.INTENT_REQUEST_CONTACT_READ_EDIT;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,8 +10,9 @@ import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -39,22 +42,25 @@ public class ContactActivityRead extends Activity {
     TextView mOccupationView;
 
     public static final String EXTRA_CONTACT_POSITION = "contact_position";
-    public static final int INTENT_REQUEST_CONTACT_EDIT = Math.abs("contact_edit_request".hashCode());
+//    public static final int INTENT_REQUEST_CONTACT_EDIT = Math.abs("contact_edit_request".hashCode());
 
-    ContactStorage mContactStorage = new ContactStorage();
-    int mContactPosition;
+//    private int intentForTransitResultRequestCode;
+
+    ContactStorage mContactStorage = ContactStorage.getInstance();
+    Contact mContact;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_read);
         ButterKnife.inject(this);
+        setTitle(getString(R.string.title_activity_contact_read));
 
         setEditable(false);
 
-        mContactPosition = getIntent().getIntExtra(EXTRA_CONTACT_POSITION, 0);
-        Contact contact = mContactStorage.getById(mContactPosition);
-        renewDataInViews(contact);
+        int mContactPosition = getIntent().getIntExtra(EXTRA_CONTACT_POSITION, 0);
+        mContact = mContactStorage.get(mContactPosition);
+        renewDataInViews(mContact);
     }
 
     @Override
@@ -68,10 +74,10 @@ public class ContactActivityRead extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_edit:
-                Toast.makeText(this, "action EDIT", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, ContactActivityEdit.class);
-                intent.putExtra(EXTRA_CONTACT_POSITION, mContactPosition);
-                startActivityForResult(intent, INTENT_REQUEST_CONTACT_EDIT);
+                intent.putExtra(EXTRA_CONTACT_POSITION, mContact.getId());
+//                startActivityForResult(intent, INTENT_REQUEST_CONTACT_EDIT);
+                startActivityForResult(intent, INTENT_REQUEST_CONTACT_READ_EDIT);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -82,19 +88,32 @@ public class ContactActivityRead extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == INTENT_REQUEST_CONTACT_EDIT) {
-            if(resultCode == RESULT_OK) {
-                boolean isDataChanged = data.getBooleanExtra(EXTRA_CONTACT_CHANGED, true);
-                if(isDataChanged) {
-                    //получить position через extra и вытянуть по нему обновленный contact
-                    renewDataInViews(contact);
-                }
-            }
+//        if (requestCode == INTENT_REQUEST_CONTACT_EDIT && resultCode == RESULT_OK) {
+//            boolean isDataChanged = data.getBooleanExtra(EXTRA_CONTACT_CHANGED, true);
+//            if (isDataChanged) {
+//                notifyListViewAdapterDataSetChanged();
+//                int contactPosition = getIntent().getIntExtra(EXTRA_CONTACT_POSITION, 0);
+//                //check if returns right object id (the same is the position in ListView)
+//                if (mContact.getId() == contactPosition) {
+//                    renewDataInViews(mContactStorage.get(contactPosition));
+//
+//                }
+//            }
+//        }
+        if (requestCode == INTENT_REQUEST_CONTACT_READ_EDIT) {
+            setResult(resultCode, data);
+            finish();
         }
     }
 
-    private void renewDataInViews(Contact contact){
-        if(contact == null) {
+    private void notifyListViewAdapterDataSetChanged() {
+        ListView listView = (ListView) findViewById(android.R.id.list);
+        BaseAdapter adapter = (ContactAdapter) listView.getAdapter();
+        adapter.notifyDataSetChanged();
+    }
+
+    private void renewDataInViews(Contact contact) {
+        if (contact == null) {
             return;
         }
         mNameView.setText(contact.getName());
@@ -106,7 +125,7 @@ public class ContactActivityRead extends Activity {
     }
 
     private void setEditable(boolean isEditable) {
-        if(!isEditable) {
+        if (!isEditable) {
             mNameView.setKeyListener(null);
             mPhoneView.setKeyListener(null);
             mEmailView.setKeyListener(null);

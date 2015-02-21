@@ -1,9 +1,11 @@
 <resources>
     <string name="app_name">ContactsApp</string>
-    <string name="save">Save contact</string>
-    <string name="action_settings_title">Settings</string>
+    <string name="btn_save">Save</string>
     <string name="action_add_title">Add</string>
     <string name="action_remove_title">Remove</string>
     <string name="action_clear_title">Clear</string>
     <string name="action_edit_title">Edit</string>
+    <string name="title_activity_contact_read">View contact info</string>
+    <string name="title_activity_contact_edit">Edit contact info</string>
+    <string name="error_date_format">Wrong date format!\nMust be: yyyy-MM-dd</string>
 </resources>
