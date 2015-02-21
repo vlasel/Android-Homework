@@ -75,27 +75,37 @@ public class ContactListActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Contact contact;
         switch (item.getItemId()) {
             case R.id.action_add:
-//                Toast.makeText(this, "action ADD", Toast.LENGTH_SHORT).show();
-                contact = VirtualContactStorage.generateContact((int) (Math.random() * 900 + 100));
-                mContactStorage.saveOrUpdate(contact);
+                addContact();
                 mAdapter.notifyDataSetChanged();
                 return true;
             case R.id.action_remove:
-                contact = mContactStorage.get(mAdapter.getCount() - 1);
-                mContactStorage.delete(contact);
+                removeContact();
                 mAdapter.notifyDataSetChanged();
                 return true;
             case R.id.action_clear:
-                for(Contact cont : new ArrayList<>(mContactStorage.list())) {
-                    mContactStorage.delete(cont);
-                }
+                clearContacts();
                 mAdapter.notifyDataSetChanged();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void addContact(){
+        Contact contact = VirtualContactStorage.generateContact((int) (Math.random() * 900 + 100));
+        mContactStorage.saveOrUpdate(contact);
+    }
+
+    private void removeContact(){
+        Contact contact = mContactStorage.get(mAdapter.getCount() - 1);
+        mContactStorage.delete(contact);
+    }
+
+    private void clearContacts(){
+        for(Contact cont : new ArrayList<>(mContactStorage.list())) {
+            mContactStorage.delete(cont);
         }
     }
 
