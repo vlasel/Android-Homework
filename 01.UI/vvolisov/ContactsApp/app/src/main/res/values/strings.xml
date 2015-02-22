@@ -8,4 +8,6 @@
     <string name="title_activity_contact_read">View contact info</string>
     <string name="title_activity_contact_edit">Edit contact info</string>
     <string name="error_date_format">Wrong date format!\nMust be: yyyy-MM-dd</string>
+
+    <string name="empty_list">No contacts</string>
 </resources>

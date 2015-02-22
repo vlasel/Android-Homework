@@ -8,4 +8,5 @@
     <string name="error_date_format">Неверный формат даты!\nДолжен быть: yyyy-MM-dd</string>
     <string name="title_activity_contact_edit">Редактирование контакта</string>
     <string name="title_activity_contact_read">Просмотр контакта</string>
+    <string name="empty_list">Нет контактов</string>
 </resources>

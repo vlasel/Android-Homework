@@ -56,6 +56,14 @@ public class ContactListActivity extends Activity {
     }
 
     @Override
+    public void onContentChanged() {
+        super.onContentChanged();
+        View emptyView = findViewById(android.R.id.empty);
+        ListView list = (ListView) findViewById(android.R.id.list);
+        list.setEmptyView(emptyView);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == INTENT_REQUEST_CONTACT_READ_EDIT && resultCode == RESULT_OK) {
