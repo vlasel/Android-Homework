@@ -20,7 +20,15 @@
         android:icon="@drawable/ic_action_content_clear"
         android:showAsAction="withText|never"
         android:title="@string/action_clear_title"
-        />
+        >
+        <menu>
+            <item
+                android:id="@+id/action_clear_confirm"
+                android:showAsAction="never"
+                android:title="@string/action_clear_confirm_title"
+                />
+        </menu>
+    </item>
 
 
 </menu>

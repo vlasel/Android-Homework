@@ -9,4 +9,5 @@
     <string name="title_activity_contact_edit">Редактирование контакта</string>
     <string name="title_activity_contact_read">Просмотр контакта</string>
     <string name="empty_list">Нет контактов</string>
+    <string name="action_clear_confirm_title">Подтвердить</string>
 </resources>

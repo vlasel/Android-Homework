@@ -4,6 +4,7 @@
     <string name="action_add_title">Add</string>
     <string name="action_remove_title">Remove</string>
     <string name="action_clear_title">Clear</string>
+    <string name="action_clear_confirm_title">Confirm</string>
     <string name="action_edit_title">Edit</string>
     <string name="title_activity_contact_read">View contact info</string>
     <string name="title_activity_contact_edit">Edit contact info</string>

@@ -92,7 +92,11 @@ public class ContactListActivity extends Activity {
                 removeContact();
                 mAdapter.notifyDataSetChanged();
                 return true;
-            case R.id.action_clear:
+//            case R.id.action_clear:
+//                clearContacts();
+//                mAdapter.notifyDataSetChanged();
+//                return true;
+            case R.id.action_clear_confirm:
                 clearContacts();
                 mAdapter.notifyDataSetChanged();
                 return true;
