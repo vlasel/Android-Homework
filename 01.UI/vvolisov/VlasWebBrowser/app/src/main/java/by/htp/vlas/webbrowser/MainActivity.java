@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -61,6 +62,7 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
@@ -71,7 +73,7 @@ public class MainActivity extends Activity {
 
         webViewInit();
 
-        boolean isExtRequest = handleExtRequestIntent(getIntent());
+        boolean isExtRequest = handleExtIntentRequest(getIntent());
 
         if(!isExtRequest && savedInstanceState == null) {
             SharedPreferences preferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
@@ -83,7 +85,7 @@ public class MainActivity extends Activity {
 
     }
 
-    private boolean handleExtRequestIntent(Intent pIntent) {
+    private boolean handleExtIntentRequest(Intent pIntent) {
         Log.d(TAG, "\nintent = " + pIntent);
         boolean result = false;
         if (pIntent.getAction().equals(Intent.ACTION_VIEW)) {
@@ -115,30 +117,29 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    protected void onDestroy() {
-        if(isFinishing()) {
-            SharedPreferences preferences = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putString(PREF_LAST_URL, mWebView.getUrl());
-            editor.apply();
-        }
-        super.onDestroy();
+    protected void onStop() {
+        Log.i(TAG, "onStop()");
+        SharedPreferences preferences = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(PREF_LAST_URL, mWebView.getUrl());
+        editor.apply();
+        super.onStop();
     }
 
     //-----------------------/ Save-Restore -------------------------------------------
 
     @OnClick(R.id.btn_go)
-    void btnGoAction() {
+    void btnGoClick() {
         loadUrl(null);
     }
 
     @OnClick(R.id.btn_back)
-    void goBack() {
+    void btnBackClick() {
         mWebView.goBack();
     }
 
     @OnClick(R.id.btn_forward)
-    void goForward() {
+    void btnForwardClick() {
         mWebView.goForward();
     }
 
@@ -171,7 +172,7 @@ public class MainActivity extends Activity {
         switch (keycode) {
             case KeyEvent.KEYCODE_BACK: {
                 if (mWebView.canGoBack()) {
-                    goBack();
+                    btnBackClick();
                     return true;
                 } else {
                     return super.onKeyDown(keycode, event);

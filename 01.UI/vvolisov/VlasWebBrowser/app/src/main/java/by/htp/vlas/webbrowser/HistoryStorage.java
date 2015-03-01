@@ -1,15 +1,13 @@
 package by.htp.vlas.webbrowser;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by VlasEL on 08.02.2015 11:42
  */
-public final class HistoryStorage implements Serializable, Cloneable {
+public final class HistoryStorage {
 
     private List<HistoryItem> history = new ArrayList<>();
 
