@@ -15,6 +15,7 @@
 
     <string name="btn_calculate">CALC</string>
 
-    <string name="error_empty_argument">Error!\nEmpty argument</string>
-    <string name="error_divide_to_zero">Error!\nDivide to zero</string>
+    <string name="error">Error</string>
+    <string name="error_empty_argument">Empty argument</string>
+    <string name="error_divide_to_zero">Divide by zero</string>
 </resources>

@@ -11,6 +11,7 @@
     <string name="app_name">VlasCalculator</string>
     <string name="operand1_hint">Операнд 1</string>
     <string name="operand2_hint">Операнд 2</string>
-    <string name="error_empty_argument">Ошибка!\nПустой аргумент</string>
-    <string name="error_divide_to_zero">Ошибка!\nДеление на ноль</string>
+    <string name="error_empty_argument">Пустой аргумент</string>
+    <string name="error_divide_to_zero">Деление на ноль</string>
+    <string name="error">Ошибка</string>
 </resources>

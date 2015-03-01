@@ -12,6 +12,12 @@ import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import calc.vlas.htp.by.calculator.operations.Operation;
+import calc.vlas.htp.by.calculator.operations.OperationAdd;
+import calc.vlas.htp.by.calculator.operations.OperationDiv;
+import calc.vlas.htp.by.calculator.operations.OperationException;
+import calc.vlas.htp.by.calculator.operations.OperationMult;
+import calc.vlas.htp.by.calculator.operations.OperationSub;
 
 /**
  * Created by _guest on 04.02.2015.
@@ -61,35 +67,48 @@ public class MainActivity extends Activity {
     }
 
     private String getCalculatedResult(RadioGroup pOperation, double op1, double op2) {
-        String result;
+        String result = "";
+        Operation operation;
         switch (pOperation.getCheckedRadioButtonId()) {
-            case R.id.rb_add: {
-                result = String.valueOf(op1 + op2);
+
+            case R.id.rb_add:
+                operation = new OperationAdd(this, op1, op2);
                 break;
-            }
-            case R.id.rb_sub: {
-                result = String.valueOf(op1 - op2);
+
+            case R.id.rb_sub:
+                operation = new OperationSub(this, op1, op2);
                 break;
-            }
-            case R.id.rb_div: {
-                if (op2 == 0) {
-                    result = "";
-                    Toast.makeText(this, getString(R.string.error_divide_to_zero), Toast.LENGTH_SHORT).show();
-                } else {
-                    result = String.valueOf(op1 / op2);
-                }
+
+            case R.id.rb_div:
+                operation = new OperationDiv(this, op1, op2);
                 break;
-            }
-            case R.id.rb_mult: {
-                result = String.valueOf(op1 * op2);
+
+            case R.id.rb_mult:
+                operation = new OperationMult(this, op1, op2);
                 break;
-            }
-            default: {
-                result = "";
+
+            default:
+                operation = null;
                 break;
-            }
         }
+
+        if (operation == null) {
+            return result;
+        }
+
+        try {
+            result = String.valueOf(operation.execute());
+        } catch (OperationException e) {
+            showErrorMsg(operation, e.getMessage());
+        }
+
         return result;
+    }
+
+    private void showErrorMsg(Operation pOperation, String pErrorDescription) {
+        Toast.makeText(this
+                , getString(R.string.error) + ": " + pOperation.getName() + "\n" + pErrorDescription
+                , Toast.LENGTH_SHORT).show();
     }
 
     //----------------------- Save-Restore -------------------------------------------
