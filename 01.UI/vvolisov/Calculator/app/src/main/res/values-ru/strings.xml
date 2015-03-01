@@ -14,4 +14,5 @@
     <string name="error_empty_argument">Пустой аргумент</string>
     <string name="error_divide_to_zero">Деление на ноль</string>
     <string name="error">Ошибка</string>
+    <string name="btn_ok">ОК</string>
 </resources>

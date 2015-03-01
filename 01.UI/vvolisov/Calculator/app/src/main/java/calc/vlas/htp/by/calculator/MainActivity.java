@@ -1,6 +1,8 @@
 package calc.vlas.htp.by.calculator;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
@@ -106,9 +108,20 @@ public class MainActivity extends Activity {
     }
 
     private void showErrorMsg(Operation pOperation, String pErrorDescription) {
-        Toast.makeText(this
-                , getString(R.string.error) + ": " + pOperation.getName() + "\n" + pErrorDescription
-                , Toast.LENGTH_SHORT).show();
+        String errorTitle = getString(R.string.error) + ": " + pOperation.getName();
+//        Toast.makeText(this
+//                , getString(R.string.error) + ": " + pOperation.getName() + "\n" + pErrorDescription
+//                , Toast.LENGTH_SHORT).show();
+        showSimpleAlertDialog(errorTitle, pErrorDescription);
+    }
+
+    private void showSimpleAlertDialog(String pTitle, String pMessage) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(pTitle)
+                .setMessage(pMessage)
+                .setPositiveButton(R.string.btn_ok, null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     //----------------------- Save-Restore -------------------------------------------
