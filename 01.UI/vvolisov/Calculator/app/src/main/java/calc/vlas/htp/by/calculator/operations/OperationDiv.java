@@ -9,11 +9,7 @@ import calc.vlas.htp.by.calculator.R;
 /**
  * Created by VlasEL on 01.03.2015 13:55
  */
-public class OperationDiv implements Operation {
-
-    Context mContext;
-    double mOperand1;
-    double mOperand2;
+public class OperationDiv extends AbstractOperation {
 
     public OperationDiv(Context pContext, double pOperand1, double pOperand2) {
         this.mContext = pContext;
@@ -26,20 +22,13 @@ public class OperationDiv implements Operation {
         return mContext.getString(R.string.operation_div);
     }
 
-    public double getOperand1() {
-        return mOperand1;
-    }
-
-    public double getOperand2() {
-        return mOperand2;
-    }
-
     @Override
-    public double execute() throws OperationException {
+    public void execute() throws OperationException {
         if (mOperand2 == 0) {
-            throw new OperationException(mContext.getString(R.string.error_divide_to_zero));
+            mError = mContext.getString(R.string.error_divide_to_zero);
+            throw new OperationException(mError);
         } else {
-            return mOperand1 / mOperand2;
+            mResult = mOperand1 / mOperand2;
         }
     }
 
@@ -48,8 +37,5 @@ public class OperationDiv implements Operation {
         return mOperand1 + " / " + mOperand2;
     }
 
-    @Override
-    public String toString() {
-        return prettyPrint();
-    }
+
 }

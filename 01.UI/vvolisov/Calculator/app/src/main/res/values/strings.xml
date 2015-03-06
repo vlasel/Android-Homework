@@ -17,6 +17,9 @@
     <string name="btn_ok">OK</string>
 
     <string name="error">Error</string>
+    <string name="error_no_operation">Operation not selected!</string>
     <string name="error_empty_argument">Empty argument</string>
     <string name="error_divide_to_zero">Divide by zero</string>
+
+    <string name="msg_task_executed">Calculation Task executed!</string>
 </resources>

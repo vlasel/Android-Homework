@@ -7,11 +7,7 @@ import calc.vlas.htp.by.calculator.R;
 /**
  * Created by VlasEL on 01.03.2015 13:55
  */
-public class OperationAdd implements Operation {
-
-    Context mContext;
-    double mOperand1;
-    double mOperand2;
+public class OperationAdd extends AbstractOperation {
 
     public OperationAdd(Context pContext, double pOperand1, double pOperand2) {
         this.mContext = pContext;
@@ -24,17 +20,9 @@ public class OperationAdd implements Operation {
         return mContext.getString(R.string.operation_add);
     }
 
-    public double getOperand1() {
-        return mOperand1;
-    }
-
-    public double getOperand2() {
-        return mOperand2;
-    }
-
     @Override
-    public double execute()  throws OperationException {
-        return mOperand1 + mOperand2;
+    public void execute() throws OperationException {
+        mResult = mOperand1 + mOperand2;
     }
 
     @Override
@@ -42,8 +30,4 @@ public class OperationAdd implements Operation {
         return mOperand1 + " + " + mOperand2;
     }
 
-    @Override
-    public String toString() {
-        return prettyPrint();
-    }
 }

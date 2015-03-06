@@ -38,6 +38,15 @@
         android:hint="@string/operand2_hint"
         />
 
+    <ProgressBar
+        android:id="@+id/progess"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/operand1"
+        android:visibility="invisible"
+        style="?android:progressBarStyleLarge"
+        />
+
     <RadioGroup
         android:id="@+id/rb_group"
         android:layout_width="wrap_content"

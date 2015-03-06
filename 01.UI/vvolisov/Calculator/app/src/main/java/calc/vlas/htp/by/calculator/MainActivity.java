@@ -2,11 +2,14 @@ package calc.vlas.htp.by.calculator;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +44,9 @@ public class MainActivity extends Activity {
     @InjectView(R.id.bt_calc)
     Button mCalculate;
 
+    @InjectView(R.id.progess)
+    ProgressBar mProgressBar;
+
     private final String STATE_RESULT_KEY = "result_text";
 
     @Override
@@ -65,11 +71,12 @@ public class MainActivity extends Activity {
         double op1 = Double.parseDouble(operand1);
         double op2 = Double.parseDouble(operand2);
 
-        mResult.setText(getCalculatedResult(mOperation, op1, op2));
+//        mResult.setText(getCalculatedResult(mOperation, op1, op2));
+        getCalculatedResult(mOperation, op1, op2);
     }
 
-    private String getCalculatedResult(RadioGroup pOperation, double op1, double op2) {
-        String result = "";
+    private void getCalculatedResult(RadioGroup pOperation, double op1, double op2) {
+//        String result = "";
         Operation operation;
         switch (pOperation.getCheckedRadioButtonId()) {
 
@@ -95,24 +102,24 @@ public class MainActivity extends Activity {
         }
 
         if (operation == null) {
-            return result;
+            Toast.makeText(this, getString(R.string.error_no_operation), Toast.LENGTH_LONG)
+                    .show();
+            return;
         }
 
-        try {
-            result = String.valueOf(operation.execute());
-        } catch (OperationException e) {
-            showErrorMsg(operation, e.getMessage());
-        }
-
-        return result;
+        CalculateTaskLocal calculateTask = new CalculateTaskLocal();
+        calculateTask.execute(operation);
+        Toast.makeText(this, getString(R.string.msg_task_executed), Toast.LENGTH_LONG)
+                .show();
     }
 
-    private void showErrorMsg(Operation pOperation, String pErrorDescription) {
+    private void showOperationErrorMessage(Operation pOperation) {
         String errorTitle = getString(R.string.error) + ": " + pOperation.getName();
+        String errorDescription = pOperation.getError();
 //        Toast.makeText(this
 //                , getString(R.string.error) + ": " + pOperation.getName() + "\n" + pErrorDescription
 //                , Toast.LENGTH_SHORT).show();
-        showSimpleAlertDialog(errorTitle, pErrorDescription);
+        showSimpleAlertDialog(errorTitle, errorDescription);
     }
 
     private void showSimpleAlertDialog(String pTitle, String pMessage) {
@@ -137,6 +144,88 @@ public class MainActivity extends Activity {
         mResult.setText(savedInstanceState.getCharSequence(STATE_RESULT_KEY));
     }
     //-----------------------/ Save-Restore -------------------------------------------
+
+
+    private class CalculateTaskLocal extends AsyncTask<Operation, Integer, Operation> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgressBar.setVisibility(View.VISIBLE);
+//            mProgressBar.setIndeterminate(false);
+        }
+
+        @Override
+        protected Operation doInBackground(Operation... pOperations) {
+            Operation operation = null;
+            if (pOperations != null && pOperations.length == 1) {
+                operation = pOperations[0];
+            }
+            try {
+                if(operation != null) {
+                    operation.execute();
+                    emulateProgress();
+                }
+            } catch (OperationException e) {
+                cancel(true);
+                return operation;
+            }
+
+            return operation;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            Log.i(getClass().getSimpleName(), "...Progress...:" + values[0]);
+            if(values != null && values.length == 1) {
+//                mProgressBar.setProgress(values[0]);
+            }
+
+        }
+
+        @Override
+        protected void onCancelled(Operation pOperation) {
+            super.onCancelled(pOperation);
+            Log.i(getClass().getSimpleName(), "onCancelled().");
+            manageResult(pOperation);
+        }
+
+        @Override
+        protected void onPostExecute(Operation pOperation) {
+            super.onPostExecute(pOperation);
+            Log.i(getClass().getSimpleName(), "onPostExecute().");
+            manageResult(pOperation);
+        }
+
+        private void manageResult(Operation pOperation) {
+            Log.i(getClass().getSimpleName(),
+                    " Result = " + pOperation.getResult()
+                            + " Error = " + pOperation.getError());
+
+            Double result = pOperation.getResult();
+            if (result != null) {
+                mResult.setText(String.valueOf(result));
+            } else {
+                showOperationErrorMessage(pOperation);
+            }
+
+            mProgressBar.setVisibility(View.INVISIBLE);
+        }
+
+        private void emulateProgress() {
+            long timeToSleep = 20;
+            for (int i = 0; i < 100; i++) {
+                try {
+                    Thread.sleep(timeToSleep, 0);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                publishProgress(i);
+            }
+        }
+
+    }
 
 }
 

@@ -5,7 +5,11 @@ package calc.vlas.htp.by.calculator.operations;
  */
 public interface Operation {
 
-    double execute() throws OperationException;
+    void execute() throws OperationException;
+
+    Double getResult();
+
+    String getError();
 
     String getName();
 
