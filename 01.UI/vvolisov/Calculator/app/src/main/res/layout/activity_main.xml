@@ -39,12 +39,24 @@
         />
 
     <ProgressBar
-        android:id="@+id/progess"
+        android:id="@+id/progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/operand1"
         android:visibility="invisible"
         style="?android:progressBarStyleLarge"
+        />
+    <TextView
+        android:id="@+id/progress_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/progress"
+        android:layout_alignLeft="@id/progress"
+        android:layout_alignRight="@id/progress"
+        android:gravity="center_horizontal"
+        tools:text = "progressValue"
+        style="?android:attr/textAppearanceMedium"
+        android:visibility="invisible"
         />
 
     <RadioGroup

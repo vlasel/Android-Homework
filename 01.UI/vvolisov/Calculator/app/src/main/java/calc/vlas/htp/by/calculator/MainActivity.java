@@ -44,8 +44,11 @@ public class MainActivity extends Activity {
     @InjectView(R.id.bt_calc)
     Button mCalculate;
 
-    @InjectView(R.id.progess)
+    @InjectView(R.id.progress)
     ProgressBar mProgressBar;
+
+    @InjectView(R.id.progress_value)
+    TextView mProgressValue;
 
     private final String STATE_RESULT_KEY = "result_text";
 
@@ -152,7 +155,7 @@ public class MainActivity extends Activity {
         protected void onPreExecute() {
             super.onPreExecute();
             mProgressBar.setVisibility(View.VISIBLE);
-//            mProgressBar.setIndeterminate(false);
+            mProgressValue.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -161,14 +164,13 @@ public class MainActivity extends Activity {
             if (pOperations != null && pOperations.length == 1) {
                 operation = pOperations[0];
             }
-            try {
-                if(operation != null) {
+            if (operation != null) {
+                try {
                     operation.execute();
                     emulateProgress();
+                } catch (OperationException e) {
+//                    cancel(true);
                 }
-            } catch (OperationException e) {
-                cancel(true);
-                return operation;
             }
 
             return operation;
@@ -177,28 +179,28 @@ public class MainActivity extends Activity {
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-            Log.i(getClass().getSimpleName(), "...Progress...:" + values[0]);
-            if(values != null && values.length == 1) {
-//                mProgressBar.setProgress(values[0]);
+            Log.i(getClass().getSimpleName(), "...Progress...:" + values);
+            if (values != null && values.length == 1) {
+                mProgressValue.setText(values[0].toString());
             }
 
         }
 
-        @Override
-        protected void onCancelled(Operation pOperation) {
-            super.onCancelled(pOperation);
-            Log.i(getClass().getSimpleName(), "onCancelled().");
-            manageResult(pOperation);
-        }
+//        @Override
+//        protected void onCancelled(Operation pOperation) {
+//            super.onCancelled(pOperation);
+//            Log.i(getClass().getSimpleName(), "onCancelled().");
+//            processResult(pOperation);
+//        }
 
         @Override
         protected void onPostExecute(Operation pOperation) {
             super.onPostExecute(pOperation);
             Log.i(getClass().getSimpleName(), "onPostExecute().");
-            manageResult(pOperation);
+            processResult(pOperation);
         }
 
-        private void manageResult(Operation pOperation) {
+        private void processResult(Operation pOperation) {
             Log.i(getClass().getSimpleName(),
                     " Result = " + pOperation.getResult()
                             + " Error = " + pOperation.getError());
@@ -211,6 +213,7 @@ public class MainActivity extends Activity {
             }
 
             mProgressBar.setVisibility(View.INVISIBLE);
+            mProgressValue.setVisibility(View.INVISIBLE);
         }
 
         private void emulateProgress() {
