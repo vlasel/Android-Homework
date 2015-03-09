@@ -51,6 +51,7 @@ public class MainActivity extends Activity {
     TextView mProgressValue;
 
     private final String STATE_RESULT_KEY = "result_text";
+    private final String LOG_TAG = getClass().getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,8 +113,9 @@ public class MainActivity extends Activity {
 
         CalculateTaskLocal calculateTask = new CalculateTaskLocal();
         calculateTask.execute(operation);
-        Toast.makeText(this, getString(R.string.msg_task_executed), Toast.LENGTH_LONG)
-                .show();
+//        Toast.makeText(this, getString(R.string.msg_task_executed), Toast.LENGTH_LONG)
+//                .show();
+        Log.d(LOG_TAG, getString(R.string.msg_task_executed));
     }
 
     private void showOperationErrorMessage(Operation pOperation) {
@@ -179,7 +181,7 @@ public class MainActivity extends Activity {
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-            Log.i(getClass().getSimpleName(), "...Progress...:" + values);
+            Log.i(LOG_TAG, "...Progress...:" + values);
             if (values != null && values.length == 1) {
                 mProgressValue.setText(values[0].toString());
             }
