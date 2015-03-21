@@ -75,10 +75,10 @@ public class MainActivity extends Activity {
 
         boolean isExtRequest = handleExtIntentRequest(getIntent());
 
-        if(!isExtRequest && savedInstanceState == null) {
+        if (!isExtRequest && savedInstanceState == null) {
             SharedPreferences preferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
             String pUrl = preferences.getString(PREF_LAST_URL, null);
-            if(pUrl != null) {
+            if (pUrl != null) {
                 loadUrl(pUrl);
             }
         }
@@ -88,7 +88,7 @@ public class MainActivity extends Activity {
     private boolean handleExtIntentRequest(Intent pIntent) {
         Log.d(TAG, "\nintent = " + pIntent);
         boolean result = false;
-        if (pIntent.getAction().equals(Intent.ACTION_VIEW)) {
+        if (Intent.ACTION_VIEW.equals(pIntent.getAction())) {
             Uri data = pIntent.getData();
 
             Log.d(TAG, "intent data = " + data);
@@ -145,7 +145,9 @@ public class MainActivity extends Activity {
 
     private void loadUrl(String pLinkAddressString) {
         String uriString = (!TextUtils.isEmpty(pLinkAddressString)) ? pLinkAddressString : mAddressView.getText().toString();
-        if (TextUtils.isEmpty(uriString)) return;
+        if (TextUtils.isEmpty(uriString)) {
+            return;
+        }
 
         hideSoftKeyboard(mAddressView);
 

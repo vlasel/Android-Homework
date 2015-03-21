@@ -5,9 +5,6 @@ package by.htp.vlas.webbrowser;
  */
 public class HistoryItem {
 
-    public HistoryItem() {
-    }
-
     public HistoryItem(String url, String title) {
         mUrl = url;
         mTitle = title;
