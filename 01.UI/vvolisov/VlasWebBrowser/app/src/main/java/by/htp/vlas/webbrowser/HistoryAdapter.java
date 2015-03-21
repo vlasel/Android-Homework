@@ -36,17 +36,32 @@ public class HistoryAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View itemView;
+
+        ViewHolder viewHolder;
+
         if (convertView == null) {
-            itemView = LayoutInflater.from(parent.getContext())
+            convertView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.layout_history_item, parent, false);
+
+            viewHolder = new ViewHolder();
+            viewHolder.historyTitle = (TextView) convertView.findViewById(R.id.history_title);
+            viewHolder.historyUrl = (TextView) convertView.findViewById(R.id.history_url);
+            convertView.setTag(viewHolder);
+
         } else {
-            itemView = convertView;
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        ((TextView) itemView.findViewById(R.id.history_title)).setText(getItem(position).getTitle());
-        ((TextView) itemView.findViewById(R.id.history_url)).setText(getItem(position).getUrl());
+        viewHolder.historyTitle.setText(getItem(position).getTitle());
+        viewHolder.historyUrl.setText(getItem(position).getUrl());
 
-        return itemView;
+        return convertView;
     }
+
+    static class ViewHolder {
+        TextView historyTitle;
+        TextView historyUrl;
+    }
+
+
 }
